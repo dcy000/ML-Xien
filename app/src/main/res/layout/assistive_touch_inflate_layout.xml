@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="500dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:alpha="0.85"
+                android:background="@drawable/volume_bg">
+
+    <ImageView
+        android:id="@+id/lude_iv_brightness_indicator"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignStart="@+id/lude_iv_volume_indicator"
+        android:layout_below="@+id/lude_iv_volume_indicator"
+        android:layout_marginTop="60dp"
+        tools:src="@drawable/lude_ic_brightness_low"/>
+
+    <ImageView
+        android:id="@+id/lude_iv_volume_indicator"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        tools:src="@drawable/lude_ic_volume_high"/>
+
+    <SeekBar
+        android:id="@+id/seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lude_iv_volume_indicator"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/lude_iv_volume_indicator"
+        android:layout_marginBottom="20dp"
+        android:focusable="true"
+        android:foregroundGravity="center_vertical"
+        android:max="60"
+        android:progress="3"
+        android:progressDrawable="@drawable/biz_video_progressbar"
+        android:thumb="@drawable/progressbar"/>
+
+    <SeekBar
+        android:id="@+id/seek_brightness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lude_iv_brightness_indicator"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/lude_iv_brightness_indicator"
+        android:focusable="true"
+        android:foregroundGravity="center_vertical"
+        android:max="60"
+        android:progress="3"
+        android:progressDrawable="@drawable/biz_video_progressbar"
+        android:thumb="@drawable/progressbar"/>
+
+</RelativeLayout>

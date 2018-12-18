@@ -1,0 +1,23 @@
+include ':app',
+        ':sdk',
+        ':module-edu',
+        ':lib-music-player',
+        ':circleprogress',
+        ':wkvideoplayer',
+        ':lib-rulerview',
+        ':lib-video-player',
+        ':lib-zxing',
+        ':voice',
+        ':lib-idcard-reader',
+        ':lib-brightness',
+
+//        ':lib-call',
+//        ':app-bci-game',
+        ':expand-textview-library',
+        ':circleindicator',
+        ':lib-utils',
+        ':lib-bluetooth', ':unit',
+        ':sdk-maibobo'
+
+
+

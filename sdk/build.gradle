@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+
+android {
+    signingConfigs {
+        config {
+        }
+    }
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+
+    //对于import module方式，compileOptions可以直接删掉
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.zxing:core:3.3.0'
+
+    // 注意：因为微信SDK从4.0.2版本开始已改用gradle形式，后续Android开发工具包将不再更新，请开发者尽快改用gradle方式编译、更新微信SDK
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
+
+    /*  以下标识
+    //ali
+    libs/alipaySdk-xxx.jar.jar
+
+    //union pay
+    libs/UPPayAssistEx.jar
+    libs/UPPayPluginEx.jar
+
+    //baidu
+    Cashier_SDK-v4.2.0.jar
+    */
+
+    //用于paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.13.3'
+    //网络请求库
+    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+
+    testImplementation "org.mockito:mockito-core:1.10.8"
+    testImplementation ('org.powermock:powermock-api-mockito:1.6.6') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'objenesis'
+    }
+    testImplementation ('org.powermock:powermock-module-junit4:1.6.6') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'objenesis'
+    }
+}
+

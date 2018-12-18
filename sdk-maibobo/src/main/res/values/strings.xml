@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sdk-maibobo</string>
+    <string name="not_connect_bluetooth">未连接蓝牙</string>
+</resources>

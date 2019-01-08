@@ -128,6 +128,10 @@ dependencies {
     implementation 'com.netease.nimlib:basesdk:4.3.0'
     implementation 'com.netease.nimlib:avchat:4.3.0'
 
+    //调试工具Pandora
+    debugImplementation rootProject.ext.dependencies["pandora-debug"]
+    releaseImplementation rootProject.ext.dependencies["pandora-release"]
+
     //万能适配器
     implementation rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
 

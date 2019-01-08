@@ -18,6 +18,7 @@ import com.gzq.lib_core.http.interceptor.CacheInterceptor;
 import com.gzq.lib_core.session.MmkvSessionManager;
 import com.gzq.lib_core.session.SessionConfig;
 import com.gzq.lib_core.utils.DeviceUtils;
+import com.gzq.lib_core.utils.ProcessUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import tech.linjiang.pandora.Pandora;
 import timber.log.Timber;
 
 public class GlobalConfiguration implements GlobalModule {
@@ -59,9 +61,9 @@ public class GlobalConfiguration implements GlobalModule {
                                     }
                                 });
                         //只在主进程初始化，不然会报控制针
-//                        if (context.getPackageName().equals(ProcessUtils.getCurProcessName(context))) {
-//                            builder.addInterceptor(Pandora.get().getInterceptor());
-//                        }
+                        if (context.getPackageName().equals(ProcessUtils.getCurProcessName(context))) {
+                            builder.addInterceptor(Pandora.get().getInterceptor());
+                        }
                     }
                 })
                 .sessionManagerConfiguration(new SessionManagerConfig() {

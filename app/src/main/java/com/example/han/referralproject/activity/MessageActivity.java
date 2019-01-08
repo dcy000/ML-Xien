@@ -27,6 +27,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         mToolbar.setVisibility(View.VISIBLE);
+        mTitleText.setText("医 生 建 议");
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_message);
         tvMsg = (TextView) findViewById(R.id.lude_tv_msg);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));

@@ -46,16 +46,31 @@ public class SelectXuetangTimeActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.one_hour:
-                startActivity(new Intent(this, BloodsugarMeasureActivity.class)
-                        .putExtra("time", 1).putExtra("type", detectType));
+                if ("sanheyi".equals(detectType)) {
+                    startActivity(new Intent(this, DetectActivity.class)
+                            .putExtra("time", 1).putExtra("type", detectType));
+                } else {
+                    startActivity(new Intent(this, BloodsugarMeasureActivity.class)
+                            .putExtra("time", 1).putExtra("type", detectType));
+                }
                 break;
             case R.id.two_hour:
-                startActivity(new Intent(this, BloodsugarMeasureActivity.class)
-                        .putExtra("time", 2).putExtra("type", detectType));
+                if ("sanheyi".equals(detectType)) {
+                    startActivity(new Intent(this, DetectActivity.class)
+                            .putExtra("time", 2).putExtra("type", detectType));
+                } else {
+                    startActivity(new Intent(this, BloodsugarMeasureActivity.class)
+                            .putExtra("time", 2).putExtra("type", detectType));
+                }
                 break;
             case R.id.kongfu:
-                startActivity(new Intent(this, BloodsugarMeasureActivity.class)
-                        .putExtra("time", 0).putExtra("type", detectType));
+                if ("sanheyi".equals(detectType)) {
+                    startActivity(new Intent(this, DetectActivity.class)
+                            .putExtra("time", 0).putExtra("type", detectType));
+                } else {
+                    startActivity(new Intent(this, BloodsugarMeasureActivity.class)
+                            .putExtra("time", 0).putExtra("type", detectType));
+                }
                 break;
         }
     }

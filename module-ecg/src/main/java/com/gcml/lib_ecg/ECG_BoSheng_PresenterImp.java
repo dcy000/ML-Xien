@@ -399,8 +399,10 @@ public class ECG_BoSheng_PresenterImp {
                     @Override
                     public void onSuccess(BorsamResponse<UploadFileResult> uploadFileResultBorsamResponse) {
                         Log.i(TAG, "onSuccess: " + uploadFileResultBorsamResponse.toString());
-                        String file_no = uploadFileResultBorsamResponse.getEntity().getFile_no();
-                        addRecord(file_no, (int) (System.currentTimeMillis() / 1000), 1, "测试");
+                        if (uploadFileResultBorsamResponse!=null&&uploadFileResultBorsamResponse.getEntity()!=null){
+                            String file_no = uploadFileResultBorsamResponse.getEntity().getFile_no();
+                            addRecord(file_no, (int) (System.currentTimeMillis() / 1000), 1, "测试");
+                        }
                     }
 
                     @Override

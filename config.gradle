@@ -174,7 +174,9 @@ ext {
             "canary-release"               : "com.squareup.leakcanary:leakcanary-android-no-op:${version["leakCanarySdkVersion"]}",
 
             "pickerView"                   : "com.contrarywind:Android-PickerView:4.1.6",
-            "mmkv"                         : "com.tencent:mmkv:1.0.13"
+            "mmkv"                         : "com.tencent:mmkv:1.0.13",
+            "pandora-debug"                : "com.github.whataa:pandora:v1.2.1",
+            "pandora-release"              : "com.github.whataa:pandora-no-op:v1.2.0",
 
     ]
 

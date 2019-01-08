@@ -44,13 +44,13 @@ import com.example.han.referralproject.Test_mainActivity;
 import com.example.han.referralproject.activity.BaseActivity;
 import com.example.han.referralproject.activity.DetectActivity;
 import com.example.han.referralproject.application.MyApplication;
-import com.example.han.referralproject.bean.UserInfoBean;
+import com.example.han.referralproject.measure.ecg.ECGCompatActivity;
 import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
 import com.example.han.referralproject.util.Utils;
-import com.example.han.referralproject.xindian.XinDianDetectActivity;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.IdentityResult;
 import com.iflytek.cloud.SpeechError;
@@ -236,7 +236,7 @@ public class AuthenticationActivity extends BaseActivity {
                     if (TextUtils.isEmpty(fromType)) {
                         intent.setClass(weakReference.get(), Test_mainActivity.class);
                     } else if ("xindian".equals(fromType)) {
-                        intent.setClass(weakReference.get(), XinDianDetectActivity.class);
+                        intent.setClass(weakReference.get(), ECGCompatActivity.class);
                     } else {
                         intent.setClass(weakReference.get(), DetectActivity.class);
                         intent.putExtra("type", fromType);
@@ -517,7 +517,7 @@ public class AuthenticationActivity extends BaseActivity {
                     if (TextUtils.isEmpty(fromType)) {
                         intent.setClass(AuthenticationActivity.this, Test_mainActivity.class);
                     } else if ("xindian".equals(fromType)) {
-                        intent.setClass(AuthenticationActivity.this, XinDianDetectActivity.class);
+                        intent.setClass(AuthenticationActivity.this, ECGCompatActivity.class);
                     } else {
                         intent.setClass(AuthenticationActivity.this, DetectActivity.class);
                         intent.putExtra("type", fromType);

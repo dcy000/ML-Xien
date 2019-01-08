@@ -218,7 +218,7 @@ public class RiddleActivity extends BaseActivity implements RiddleDialog.ShowNex
 //            }
 //        });
 
-        MLVoiceRecognize.startRecognize(this, new MLRecognizerListener() {
+        MLVoiceRecognize.startRecognize(new MLRecognizerListener() {
             @Override
             public void onMLVolumeChanged(int i, byte[] bytes) {
                 vlWave.waveH = i / 6 + 2;

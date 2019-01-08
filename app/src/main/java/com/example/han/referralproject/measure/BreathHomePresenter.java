@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.gzq.lib_bluetooth.BaseBluetooth;
 import com.gzq.lib_bluetooth.BluetoothStore;
 import com.gzq.lib_bluetooth.BluetoothType;
+import com.gzq.lib_core.base.Box;
 import com.iflytek.synthetize.MLVoiceSynthetize;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
@@ -79,7 +80,7 @@ public class BreathHomePresenter extends BaseBluetooth {
     protected void connectSuccessed(final String address) {
         LocalShared.getInstance(context).setBreathHomeMac(deviceName + "," + address);
 
-        BluetoothStore.getInstance().getClient().notify(address, UUID.fromString(targetServiceUUid),
+        BluetoothStore.getClient().notify(address, UUID.fromString(targetServiceUUid),
                 UUID.fromString(targetCharacteristicUUid), new BleNotifyResponse() {
                     @Override
                     public void onNotify(UUID service, UUID character, byte[] value) {
@@ -283,7 +284,7 @@ public class BreathHomePresenter extends BaseBluetooth {
      */
     private void readyWrite(final String address, final List<byte[]> list, final boolean isWriteResultCall) {
         if (writePosition < list.size()) {
-            BluetoothStore.getInstance().getClient().write(address, UUID.fromString(targetServiceUUid),
+            BluetoothStore.getClient().write(address, UUID.fromString(targetServiceUUid),
                     UUID.fromString(targetCharacteristicUUid), list.get(writePosition),
                     new BleWriteResponse() {
                         @Override
@@ -297,7 +298,7 @@ public class BreathHomePresenter extends BaseBluetooth {
                                     @Override
                                     public void run() {
                                         ToastTool.showShort("连接设备失败");
-                                        MLVoiceSynthetize.startSynthesize(MyApplication.getInstance(), "连接设备失败", false);
+                                        MLVoiceSynthetize.startSynthesize( "连接设备失败", false);
                                     }
                                 });
 
@@ -313,7 +314,7 @@ public class BreathHomePresenter extends BaseBluetooth {
                     @Override
                     public void run() {
                         ToastTool.showShort("设备已连接");
-                        MLVoiceSynthetize.startSynthesize(MyApplication.getInstance(), "设备已连接", false);
+                        MLVoiceSynthetize.startSynthesize("设备已连接", false);
                     }
                 });
             }

@@ -41,7 +41,7 @@ public class TemperaturePresenter extends BaseBluetooth {
     @Override
     protected void connectSuccessed(String address) {
         LocalShared.getInstance(context).setWenduMac(address);
-        MLVoiceSynthetize.startSynthesize(context, "设备已连接", false);
+        MLVoiceSynthetize.startSynthesize("设备已连接", false);
         List<BluetoothDevice> connectedBluetoothLeDevices = BluetoothUtils.getConnectedBluetoothLeDevices();
         if (connectedBluetoothLeDevices != null && connectedBluetoothLeDevices.size() > 0) {
             BluetoothDevice bluetoothDevice = connectedBluetoothLeDevices.get(0);
@@ -50,7 +50,7 @@ public class TemperaturePresenter extends BaseBluetooth {
                 if (!TextUtils.isEmpty(name)) {
                     switch (name) {
                         case "FSRKB-EWQ01":
-                            BluetoothStore.getInstance().getClient().notify(address, UUID.fromString("00001910-0000-1000-8000-00805f9b34fb"),
+                            BluetoothStore.getClient().notify(address, UUID.fromString("00001910-0000-1000-8000-00805f9b34fb"),
                                     UUID.fromString("0000fff2-0000-1000-8000-00805f9b34fb"), new BleNotifyResponse() {
                                         @Override
                                         public void onNotify(UUID uuid, UUID uuid1, byte[] bytes) {
@@ -74,7 +74,7 @@ public class TemperaturePresenter extends BaseBluetooth {
                             break;
                         case "MEDXING-IRT":
 
-                            BluetoothStore.getInstance().getClient().notify(address,
+                            BluetoothStore.getClient().notify(address,
                                     UUID.fromString("0000ffb0-0000-1000-8000-00805f9b34fb"),
                                     UUID.fromString("0000ffb2-0000-1000-8000-00805f9b34fb"), new BleNotifyResponse() {
                                         @Override
@@ -110,7 +110,7 @@ public class TemperaturePresenter extends BaseBluetooth {
     protected void disConnected() {
         handler = new Handler();
         if (context != null) {
-            MLVoiceSynthetize.startSynthesize(context, "设备已断开", false);
+            MLVoiceSynthetize.startSynthesize( "设备已断开", false);
         }
         handler.postDelayed(new Runnable() {
             @Override

@@ -76,7 +76,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -85,15 +84,12 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label,android:theme">
 
-        <!--<provider-->
-        <!--android:name="android.support.v4.content.FileProvider"-->
-        <!--android:authorities="${applicationId}.fileProvider"-->
-        <!--android:exported="false"-->
-        <!--android:grantUriPermissions="true">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--android:resource="@xml/provider_paths" />-->
-        <!--</provider>-->
+        <meta-data
+            android:name="com.example.han.referralproject.application.GlobalConfiguration"
+            android:value="GlobalConfig" />
+        <meta-data
+            android:name="com.example.han.referralproject.application.MyApplication"
+            android:value="AppLifecycle" />
 
         <meta-data
             android:name="com.gcml.version"
@@ -675,10 +671,15 @@
         <activity
             android:name=".measure.TemperatureMeasureActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".measure.BreathHomeActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".measure.BloodsugarMeasureActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".measure.BreathHomeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".measure.BloodsugarMeasureActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".measure.ecg.ECGCompatActivity"
+            android:screenOrientation="landscape" />
 
     </application>
 

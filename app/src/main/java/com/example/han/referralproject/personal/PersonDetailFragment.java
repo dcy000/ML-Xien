@@ -28,7 +28,6 @@ import com.example.han.referralproject.bean.Doctor;
 import com.example.han.referralproject.bean.RobotAmount;
 import com.example.han.referralproject.bean.User;
 import com.example.han.referralproject.bean.UserInfo;
-import com.example.han.referralproject.bean.UserInfoBean;
 import com.example.han.referralproject.bean.VersionInfoBean;
 import com.example.han.referralproject.bodytest.activity.ChineseMedicineMonitorActivity;
 import com.example.han.referralproject.constant.ConstantData;
@@ -43,6 +42,7 @@ import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.UpdateAppManager;
 import com.example.han.referralproject.util.Utils;
 import com.example.han.referralproject.video.VideoListActivity;
+import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.alarm.AlarmList2Activity;
 import com.medlink.danbogh.healthdetection.HealthRecordActivity;
 import com.medlink.danbogh.utils.T;
@@ -134,8 +134,8 @@ public class PersonDetailFragment extends Fragment implements View.OnClickListen
         mTextView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-                String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+                String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+                String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
                 if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
                     T.show("无网模式下无法使用");
                     return;
@@ -250,8 +250,8 @@ public class PersonDetailFragment extends Fragment implements View.OnClickListen
 
 
     private void getData() {
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
             mTextView4.setText("未签约");
             mTextView1.setText("暂无");

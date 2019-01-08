@@ -24,6 +24,7 @@ import com.example.han.referralproject.settting.dialog.UpDateDialog;
 import com.example.han.referralproject.settting.dialog.VoicerSetDialog;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.UpdateAppManager;
+import com.gzq.lib_core.base.Box;
 import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
@@ -72,7 +73,7 @@ public class SettingActivity extends BaseActivity implements ClearCacheOrResetDi
         speak("您好，欢迎来到设置页面");
         initTitle();
         String netless = LocalShared.getInstance(this).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         sbOfflineMode.setChecked(TextUtils.isEmpty(noNetless));
         if (TextUtils.isEmpty(noNetless)) {
             rlNetless.setVisibility(View.VISIBLE);

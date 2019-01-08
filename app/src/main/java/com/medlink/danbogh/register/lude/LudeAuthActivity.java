@@ -14,6 +14,7 @@ import com.example.han.referralproject.activity.ChooseRegisterTypeActivity;
 import com.example.han.referralproject.activity.WifiConnectActivity;
 import com.example.han.referralproject.application.MyApplication;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.base.Box;
 
 public class LudeAuthActivity extends AppCompatActivity {
 
@@ -61,7 +62,7 @@ public class LudeAuthActivity extends AppCompatActivity {
         });
 
         String netless = LocalShared.getInstance(this).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             tvNetworkMode.setVisibility(View.VISIBLE);
             tvNetworkMode.setText(TextUtils.isEmpty(netless) ? "有网模式" : "无网模式");

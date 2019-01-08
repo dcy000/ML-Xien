@@ -42,6 +42,7 @@ import com.example.lenovo.rto.accesstoken.AccessTokenModel;
 import com.example.lenovo.rto.http.HttpListener;
 import com.example.lenovo.rto.sharedpreference.EHSharedPreferences;
 import com.google.gson.Gson;
+import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.alarm.AlarmHelper;
 import com.medlink.danbogh.alarm.AlarmList2Activity;
 import com.medlink.danbogh.alarm.AlarmModel;
@@ -224,8 +225,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                startActivity(new Intent(mContext, Test_mainActivity.class));
                 break;
             case R.id.doctor_ask://医生咨询
-                String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-                String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+                String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+                String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
                 if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
                     T.show("无网模式下无法使用");
                     return;

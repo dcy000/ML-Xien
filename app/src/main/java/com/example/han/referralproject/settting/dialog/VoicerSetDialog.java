@@ -117,7 +117,7 @@ public class VoicerSetDialog extends DialogFragment {
                     notifyDataSetChanged();
                     saveData(position);
                     String name = data.get(position).name;
-                    MLVoiceSynthetize.startSynthesize(getActivity(), "您好，我是" + name.replaceAll("/", ""), false);
+                    MLVoiceSynthetize.startSynthesize("您好，我是" + name.replaceAll("/", ""), false);
                 }
             });
         }

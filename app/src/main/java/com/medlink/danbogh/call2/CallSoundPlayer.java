@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.han.referralproject.R;
 import com.example.han.referralproject.application.MyApplication;
+import com.gzq.lib_core.base.Box;
 
 /**
  * Created by lenovo on 2017/10/26.
@@ -54,7 +55,7 @@ public class CallSoundPlayer {
     }
 
     public CallSoundPlayer() {
-        this.context = MyApplication.getInstance();
+        this.context = Box.getApp();
     }
 
     public synchronized void play(RingerType type) {

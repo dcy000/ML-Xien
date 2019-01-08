@@ -1,0 +1,89 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    //support
+//    compileOnly rootProject.ext.dependencies["appcompat-v7"]
+    implementation(rootProject.ext.dependencies["appcompat-v7"]) {
+        exclude module: 'support-annotations'
+    }
+    //分包插件
+    api rootProject.ext.dependencies["multidex"]
+
+    //Rxjava生命周期管理
+    api rootProject.ext.dependencies["autodispose"]
+    api rootProject.ext.dependencies["autodispose-arch"]
+
+    //rxjava2+rxandroid2
+    api rootProject.ext.dependencies["rxjava2"]
+    api rootProject.ext.dependencies["rxandroid2"]
+
+    //retrofit+他的适配器
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit-converter-gson"]
+    api rootProject.ext.dependencies["retrofit-adapter-rxjava2"]
+    //可动态切换BaseUrl
+    api rootProject.ext.dependencies["retrofit-url-manager"]
+
+    //日志框架timber
+    api rootProject.ext.dependencies["timber"]
+
+    //腾讯KV组件 用于替换SharedPreferences
+    implementation rootProject.ext.dependencies["mmkv"]
+
+    //调试工具leakCanary
+    debugImplementation rootProject.ext.dependencies["leakCanary-debug"]
+    releaseImplementation rootProject.ext.dependencies["leakCanary-release"]
+
+    //调试工具blockCanary
+    debugImplementation rootProject.ext.dependencies["blockCanary-debug"]
+    releaseImplementation rootProject.ext.dependencies["blockCanary-release"]
+
+    //google官方数据库框架room
+    api rootProject.ext.dependencies["room-runtime"]
+    annotationProcessor rootProject.ext.dependencies["room-compiler"]
+    api rootProject.ext.dependencies["room-rxjava2"]
+
+    //rxpermission
+    api rootProject.ext.dependencies["rxpermissions2"]
+    api rootProject.ext.dependencies["rxerrorhandler2"]
+    //二维码核心库
+    implementation 'com.google.zxing:core:3.3.0'
+    //讯飞库
+//    api files('libs/Msc.jar')
+    api 'com.qiniu:qiniu-android-sdk:7.3.+'
+    //图片加载库Glide
+    api rootProject.ext.dependencies["glide"]
+
+    //数据库框架LitePal 在闹钟处有使用 最终必须去掉
+    api 'org.litepal.android:core:1.6.0'
+    compileOnly rootProject.ext.dependencies["recyclerview-v7"]
+}

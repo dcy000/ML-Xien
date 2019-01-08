@@ -28,7 +28,7 @@ public class BluetoothSearchHelper {
             search = new MySearch(names);
         }
         isOnSearching = true;
-        BluetoothStore.getInstance().getClient().search(request, search);
+        BluetoothStore.getClient().search(request, search);
 
     }
 
@@ -42,7 +42,7 @@ public class BluetoothSearchHelper {
             search = new MySearch(names);
         }
         isOnSearching = true;
-        BluetoothStore.getInstance().getClient().search(request, search);
+        BluetoothStore.getClient().search(request, search);
     }
 
     class MySearch implements SearchResponse {
@@ -57,7 +57,7 @@ public class BluetoothSearchHelper {
             searchTime = System.currentTimeMillis();
             synchronized (BluetoothSearchHelper.this) {
                 if (isClear) {
-                    BluetoothStore.getInstance().getClient().stopSearch();
+                    BluetoothStore.getClient().stopSearch();
                     return;
                 }
             }
@@ -79,7 +79,7 @@ public class BluetoothSearchHelper {
                         }
                         if (searchListener != null && deviceName.contains(name)) {
                             //搜索到了就停止搜索
-                            BluetoothStore.getInstance().getClient().stopSearch();
+                            BluetoothStore.getClient().stopSearch();
                             isFindOne = true;
                             searchListener.obtainDevice(device.device);
                         }
@@ -113,7 +113,7 @@ public class BluetoothSearchHelper {
     public synchronized void clear() {
         isClear = true;
         isOnSearching = false;
-        BluetoothStore.getInstance().getClient().stopSearch();
+        BluetoothStore.getClient().stopSearch();
         isFindOne = false;
         searchListener = null;
         search = null;

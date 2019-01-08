@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- 画面背景色 -->
+
+    <!-- 分割线背景色 -->
+
+    <color name="white">#FFFFFF</color>
+    
+    <!-- 控件按下时显示的颜色 -->
+
+</resources>

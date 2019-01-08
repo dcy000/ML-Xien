@@ -1,7 +1,7 @@
 package com.medlink.danbogh.cache;
 
 import com.example.han.referralproject.bean.DataInfoBean;
-import com.example.han.referralproject.bean.UserInfoBean;
+import com.gzq.lib_core.bean.UserInfoBean;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.EvictDynamicKeyGroup;
 import io.rx_cache2.EvictProvider;
 import io.rx_cache2.ProviderKey;
-import io.rx_cache2.Reply;
 
 /**
  * Created by lenovo on 2018/5/9.

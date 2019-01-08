@@ -22,6 +22,7 @@ import com.example.han.referralproject.facerecognition.AuthenticationActivity;
 import com.example.han.referralproject.speechsynthesis.PinYinUtils;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
+import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.register.SignUp1NameActivity;
 import com.medlink.danbogh.register.idcard.SignInIdCardActivity;
 import com.medlink.danbogh.register.simple.SignUp01NameActivity;
@@ -74,8 +75,8 @@ public class ChooseLoginTypeActivity extends BaseActivity implements View.OnClic
         signUpFast.setOnClickListener(this);
         ivBack.setOnClickListener(this);
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
             tvPhoneSignIn.setVisibility(View.GONE);
             etSignInPassword.setVisibility(View.GONE);

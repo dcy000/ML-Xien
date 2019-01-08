@@ -1,5 +1,8 @@
 # Change Log
 
+## Robot-Xien.1.2.8(24)
+- 兼容博声心电
+
 ## Robot-Xien.1.2.7(23)
 
 - 兼容脉搏波血压计

@@ -18,13 +18,14 @@ import com.example.han.referralproject.MainActivity;
 import com.example.han.referralproject.R;
 import com.example.han.referralproject.activity.BaseActivity;
 import com.example.han.referralproject.application.MyApplication;
-import com.example.han.referralproject.bean.UserInfoBean;
 import com.example.han.referralproject.facerecognition.CreateGroupListener;
 import com.example.han.referralproject.facerecognition.FaceAuthenticationUtils;
 import com.example.han.referralproject.facerecognition.JoinGroupListener;
 import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.base.Box;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.FaceRequest;
 import com.iflytek.cloud.IdentityResult;
@@ -568,7 +569,7 @@ public class SignInIdCardActivity extends BaseActivity {
         speak("欢迎使用西恩智能医生");
 
         String netless = LocalShared.getInstance(this).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (!TextUtils.isEmpty(noNetless) || TextUtils.isEmpty(netless)) {
             onCheckRegistered();
         } else {

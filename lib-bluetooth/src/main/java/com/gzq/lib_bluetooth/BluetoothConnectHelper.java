@@ -30,9 +30,9 @@ public class BluetoothConnectHelper {
         if (connectStatusListener == null) {
             connectStatusListener = new MyBleConnectStatusListener();
         }
-        BluetoothStore.getInstance().getClient().registerConnectStatusListener(macAddress, connectStatusListener);
+        BluetoothStore.getClient().registerConnectStatusListener(macAddress, connectStatusListener);
 
-        BluetoothStore.getInstance().getClient().connect(macAddress, connectResponse);
+        BluetoothStore.getClient().connect(macAddress, connectResponse);
     }
 
     class MyBleConnectResponse implements BleConnectResponse {
@@ -71,7 +71,7 @@ public class BluetoothConnectHelper {
         connectStatusListener = null;
         connectListener = null;
         if (connectStatusListener != null) {
-            BluetoothStore.getInstance().getClient().unregisterConnectStatusListener(address, connectStatusListener);
+            BluetoothStore.getClient().unregisterConnectStatusListener(address, connectStatusListener);
         }
         connectStatusListener = null;
 
@@ -80,9 +80,9 @@ public class BluetoothConnectHelper {
         }
         if (isConnected) {
             isConnected = false;
-            BluetoothStore.getInstance().getClient().disconnect(address);
+            BluetoothStore.getClient().disconnect(address);
         }
         //清除队列中缓存
-        BluetoothStore.getInstance().getClient().clearRequest(address, 0);
+        BluetoothStore.getClient().clearRequest(address, 0);
     }
 }

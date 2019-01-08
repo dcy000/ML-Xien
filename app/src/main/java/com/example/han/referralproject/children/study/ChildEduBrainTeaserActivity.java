@@ -159,7 +159,7 @@ public class ChildEduBrainTeaserActivity extends BaseActivity implements DialogI
     };
 
     private void startListener() {
-        MLVoiceRecognize.startRecognize(this, recognizerListener);
+        MLVoiceRecognize.startRecognize( recognizerListener);
     }
 
     private void doData(String result) {

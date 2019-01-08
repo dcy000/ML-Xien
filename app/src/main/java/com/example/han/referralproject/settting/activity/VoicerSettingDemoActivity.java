@@ -39,7 +39,7 @@ public class VoicerSettingDemoActivity extends BaseActivity {
         ButterKnife.bind(this);
         initTitle();
         initView();
-        MLVoiceSynthetize.startSynthesize(this, "您好，请你选出一种声音", false);
+        MLVoiceSynthetize.startSynthesize("您好，请你选出一种声音", false);
     }
 
     private void initView() {
@@ -125,7 +125,7 @@ public class VoicerSettingDemoActivity extends BaseActivity {
 
     @OnClick(R.id.tv_shuo)
     public void onViewClicked() {
-        MLVoiceSynthetize.startSynthesize(this, "选择的音调是"+tvYudiao.getText().toString()+"", false);
+        MLVoiceSynthetize.startSynthesize( "选择的音调是"+tvYudiao.getText().toString()+"", false);
     }
 
     @Override

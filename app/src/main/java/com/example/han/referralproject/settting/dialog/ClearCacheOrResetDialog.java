@@ -15,6 +15,7 @@ import com.example.han.referralproject.R;
 import com.example.han.referralproject.application.MyApplication;
 import com.example.han.referralproject.settting.EventType;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.base.Box;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,7 +93,7 @@ public class ClearCacheOrResetDialog extends DialogFragment {
 
 
     private void clickConfirm() {
-        String password = LocalShared.getInstance(MyApplication.getInstance()).getString("resetPassword");
+        String password = LocalShared.getInstance(Box.getApp()).getString("resetPassword");
         password = TextUtils.isEmpty(password) ? "123456" : password;
         if (!tvPassword.getText().toString().trim().equals(password)) {
             dismiss();

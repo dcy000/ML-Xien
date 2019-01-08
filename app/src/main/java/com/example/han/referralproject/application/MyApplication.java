@@ -3,18 +3,13 @@ package com.example.han.referralproject.application;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Process;
-import android.support.multidex.MultiDex;
+import android.support.annotation.NonNull;
 
 import com.example.han.referralproject.BuildConfig;
-import com.example.han.referralproject.bean.UserInfoBean;
-import com.example.han.referralproject.floatingball.AssistiveTouchService;
 import com.example.han.referralproject.new_music.LibMusicPlayer;
 import com.example.han.referralproject.new_music.Preferences;
 import com.example.han.referralproject.new_music.ScreenUtils;
@@ -22,7 +17,9 @@ import com.example.han.referralproject.new_music.ToastUtils;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
 import com.example.lenovo.rto.sharedpreference.EHSharedPreferences;
-import com.gzq.lib_bluetooth.BluetoothStore;
+import com.gzq.lib_core.base.delegate.AppLifecycle;
+import com.gzq.lib_core.base.ui.IEvents;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.medlink.danbogh.call2.NimInitHelper;
@@ -33,7 +30,6 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
-import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 
 import org.litepal.LitePal;
@@ -45,7 +41,7 @@ import cn.beecloud.BeeCloud;
 import cn.jpush.android.api.JPushInterface;
 
 
-public class MyApplication extends Application {
+public class MyApplication implements AppLifecycle {
     private static MyApplication mInstance;
     public String userId;
     public String xfid;
@@ -62,54 +58,49 @@ public class MyApplication extends Application {
     public String eqid;
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+    public void attachBaseContext(@NonNull Context base) {
+
     }
 
-
     @Override
-    public void onCreate() {
-        super.onCreate();
-//        Debug.startMethodTracing("start");
-        EHSharedPreferences.initUNITContext(this);
-        LeakCanary.install(this);
-        LibMusicPlayer.init(this);
-        Preferences.init(this);
-        ScreenUtils.init(this);
-        ToastUtils.init(this);
-        ToastTool.init(this);
+    public void onCreate(@NonNull Application application) {
+        EHSharedPreferences.initUNITContext(application);
+        LibMusicPlayer.init(application);
+        Preferences.init(application);
+        ScreenUtils.init(application);
+        ToastUtils.init(application);
+        ToastTool.init(application);
 //        NoCrash.init(this);
 //        NoCrash.getInstance().install();
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        MobclickAgent.setScenarioType(application, MobclickAgent.EScenarioType.E_UM_NORMAL);
         MobclickAgent.UMAnalyticsConfig umConfig = new MobclickAgent.UMAnalyticsConfig(
-                this,
+                application,
                 "5a604f5d8f4a9d02230001b1",
                 "GCML"
         );
         MobclickAgent.setCatchUncaughtExceptions(true);
         MobclickAgent.startWithConfigure(umConfig);
-        UiUtils.init(this, 1920, 1200);
-        UiUtils.compat(this, 1920);
-        T.init(this);
-        LitePal.initialize(this);
+        UiUtils.init(application, 1920, 1200);
+        UiUtils.compat(application, 1920);
+        T.init(application);
+        LitePal.initialize(application);
         mInstance = this;
-        LocalShared mShared = LocalShared.getInstance(this);
+        LocalShared mShared = LocalShared.getInstance(application);
         userId = mShared.getUserId();
         xfid = mShared.getXunfeiId();
         telphoneNum = mShared.getPhoneNum();
         eqid = mShared.getEqID();
 
-        WakeupHelper.init(this);
+        WakeupHelper.init(application);
         StringBuilder builder = new StringBuilder();
         builder.append("appid=")
                 .append("59196d96")
                 .append(",")
                 .append(SpeechConstant.ENGINE_MODE + "=" + SpeechConstant.MODE_MSC);
 
-        SpeechUtility.createUtility(this, builder.toString());
+        SpeechUtility.createUtility(application, builder.toString());
 
-        NimInitHelper.getInstance().init(MyApplication.this, true);
+        NimInitHelper.getInstance().init(application, true);
 
 //        initOkHttpUtils();
 
@@ -117,7 +108,7 @@ public class MyApplication extends Application {
 
         //初始化极光
         JPushInterface.setDebugMode(BuildConfig.DEBUG);
-        JPushInterface.init(this);
+        JPushInterface.init(application);
         //初始化日志库
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(true)  // (Optional) Whether to show thread info or not. Default true
@@ -130,16 +121,21 @@ public class MyApplication extends Application {
 
             }
         });
-        //初始化蓝牙库
-        BluetoothStore.getInstance().init(this);
-//        Debug.stopMethodTracing();
     }
 
+    @Override
+    public void onTerminate(@NonNull Application application) {
+
+    }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        UiUtils.compat(this, 1920);
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+
+    }
+
+    @Override
+    public IEvents provideEvents() {
+        return null;
     }
 
 

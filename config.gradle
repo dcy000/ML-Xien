@@ -28,7 +28,7 @@ ext {
     developUrl = api.xienProduceUrl
 
     //线上正式运行的IP地址
-    produceUrl = api.xienProduceUrl
+    produceUrl = api.xienTestUrl
 
 
     android = [
@@ -36,8 +36,8 @@ ext {
             buildToolsVersion: "27.0.3",
             minSdkVersion    : 19,
             targetSdkVersion : 27,
-            versionCode      : 23,
-            versionName      : "Robot-Xien.1.2.7"
+            versionCode      : 24,
+            versionName      : "Robot-Xien.1.2.8"
     ]
 
     version = [
@@ -70,7 +70,6 @@ ext {
             "lifecycle-runtime"            : "android.arch.lifecycle:runtime:${version["androidArchSdkVersion"]}",
             "viewmodel"                    : "android.arch.lifecycle:viewmodel:${version["androidArchSdkVersion"]}",
             "livedata-core"                : "android.arch.lifecycle:livedata-core:${version["androidArchSdkVersion"]}",
-
 
             //network
             "retrofit"                     : "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
@@ -150,7 +149,6 @@ ext {
             "litepal"                      : "org.litepal.android:core:1.5.1",
             "ultra-ptr"                    : "in.srain.cube:ultra-ptr:1.0.11",
 
-
             //test
             "junit"                        : "junit:junit:4.12",
             "androidJUnitRunner"           : "android.support.test.runner.AndroidJUnitRunner",
@@ -175,7 +173,8 @@ ext {
             "canary-debug"                 : "com.squareup.leakcanary:leakcanary-android:${version["leakCanarySdkVersion"]}",
             "canary-release"               : "com.squareup.leakcanary:leakcanary-android-no-op:${version["leakCanarySdkVersion"]}",
 
-            "pickerView"                   : "com.contrarywind:Android-PickerView:4.1.6"
+            "pickerView"                   : "com.contrarywind:Android-PickerView:4.1.6",
+            "mmkv"                         : "com.tencent:mmkv:1.0.13"
 
     ]
 

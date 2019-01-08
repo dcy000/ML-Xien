@@ -11,8 +11,7 @@ import com.example.han.referralproject.activity.DetectActivity;
 import com.example.han.referralproject.activity.SelectXuetangTimeActivity;
 import com.example.han.referralproject.measure.BreathHomeActivity;
 import com.example.han.referralproject.measure.TemperatureMeasureActivity;
-import com.example.han.referralproject.util.ToastTool;
-import com.example.han.referralproject.xindian.XinDianDetectActivity;
+import com.example.han.referralproject.measure.ecg.ECGCompatActivity;
 
 import java.util.Calendar;
 
@@ -121,13 +120,12 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.ll_xindian:
-                    intent.setClass(mContext, XinDianDetectActivity.class);
-                    startActivity(intent);
+//                    intent.setClass(mContext, XinDianDetectActivity.class);
+//                    startActivity(intent);
+                    ECGCompatActivity.startActivity(this);
                     break;
                 case R.id.ll_san:
-//                    intent.setClass(mContext, DetectActivity.class);
                     intent.setClass(mContext, SelectXuetangTimeActivity.class);
-//                    intent.setClass(mContext, InstructionsActivity.class);
                     intent.putExtra("type", "sanheyi");
                     startActivity(intent);
                     break;

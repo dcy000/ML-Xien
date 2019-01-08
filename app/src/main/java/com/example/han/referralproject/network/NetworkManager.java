@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.han.referralproject.application.MyApplication;
 import com.google.gson.Gson;
+import com.gzq.lib_core.base.Box;
 
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ public class NetworkManager {
     private NetworkManager(){
         client = new OkHttpClient();
         mGson = new Gson();
-        mContext = MyApplication.getInstance();
+        mContext = Box.getApp();
     }
 
     public interface SuccessCallback<T> {

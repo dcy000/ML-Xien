@@ -68,10 +68,10 @@ public class BloodsugarPresenter extends BaseBluetooth implements OnBleListener 
     @Override
     protected void connectSuccessed(String address) {
         ToastTool.showShort("设备已连接");
-        MLVoiceSynthetize.startSynthesize(context, "设备已连接", false);
+        MLVoiceSynthetize.startSynthesize("设备已连接", false);
         LocalShared.getInstance(context).setXuetangMac(targetName + "," + address);
         context.updateData("initialization", "0.0");
-        BluetoothStore.getInstance().getClient().notify(address, UUID.fromString(targetServiceUUid),
+        BluetoothStore.getClient().notify(address, UUID.fromString(targetServiceUUid),
                 UUID.fromString(targetCharacteristicUUid), new BleNotifyResponse() {
                     @Override
                     public void onNotify(UUID service, UUID character, byte[] bytes) {
@@ -86,7 +86,7 @@ public class BloodsugarPresenter extends BaseBluetooth implements OnBleListener 
 
                     }
                 });
-        BluetoothStore.getInstance().getClient().write(address, UUID.fromString(targetServiceUUid),
+        BluetoothStore.getClient().write(address, UUID.fromString(targetServiceUUid),
                 UUID.fromString(targetWriteCharacteristicUUid), DATA_SUGAR_TO_WRITE, new BleWriteResponse() {
                     @Override
                     public void onResponse(int code) {
@@ -164,7 +164,7 @@ public class BloodsugarPresenter extends BaseBluetooth implements OnBleListener 
             case BleConnectState.CONNECT_SUCCESS:
                 // 蓝牙连接设备成功
                 ToastTool.showShort("设备已连接");
-                MLVoiceSynthetize.startSynthesize(context, "设备已连接", false);
+                MLVoiceSynthetize.startSynthesize("设备已连接", false);
                 context.updateData("initialization", "0.00");
                 LocalShared.getInstance(context).setXuetangMac(targetName + "," + targetAddress);
                 BleManager.getInstance().sendGetSnCommond();
@@ -173,7 +173,7 @@ public class BloodsugarPresenter extends BaseBluetooth implements OnBleListener 
             case BleConnectState.DISCONNECTED:
                 // 已断开设备的蓝牙连接
                 ToastTool.showShort("设备已断开");
-                MLVoiceSynthetize.startSynthesize(context, "设备已断开", false);
+                MLVoiceSynthetize.startSynthesize("设备已断开", false);
                 new WeakHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

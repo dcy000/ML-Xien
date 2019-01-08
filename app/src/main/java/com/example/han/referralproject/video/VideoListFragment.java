@@ -29,6 +29,7 @@ import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.GridViewDividerItemDecoration;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.base.Box;
 import com.ml.videoplayer.MlVideoPlayer;
 
 import java.io.File;
@@ -125,7 +126,7 @@ public class VideoListFragment extends Fragment {
         //fetchVideos(position);
         if (init.compareAndSet(0, 1)) {
             mNetless = LocalShared.getInstance(getActivity()).getString("netless");
-            String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+            String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
             if (!TextUtils.isEmpty(noNetless) || TextUtils.isEmpty(mNetless)) {
                 loadMore();
                 getVideos();

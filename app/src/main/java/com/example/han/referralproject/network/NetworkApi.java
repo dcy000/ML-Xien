@@ -29,7 +29,6 @@ import com.example.han.referralproject.bean.SymptomBean;
 import com.example.han.referralproject.bean.SymptomResultBean;
 import com.example.han.referralproject.bean.TemperatureHistory;
 import com.example.han.referralproject.bean.UserInfo;
-import com.example.han.referralproject.bean.UserInfoBean;
 import com.example.han.referralproject.bean.VersionInfoBean;
 import com.example.han.referralproject.bean.WeeklyReport;
 import com.example.han.referralproject.bean.WeightHistory;
@@ -49,6 +48,8 @@ import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.Utils;
 import com.example.han.referralproject.video.VideoEntity;
 import com.google.gson.reflect.TypeToken;
+import com.gzq.lib_core.base.Box;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.medlink.danbogh.cache.Repository;
 
 import java.util.ArrayList;
@@ -382,9 +383,9 @@ public class NetworkApi {
         if (TextUtils.isEmpty(bid)) {
             return;
         }
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
         if (!TextUtils.isEmpty(netless)) {
-            Repository repository = Repository.getInstance(MyApplication.getInstance());
+            Repository repository = Repository.getInstance(Box.getApp());
             repository.current()
                     .map(new Function<UserInfoBean, UserInfo>() {
                         @Override
@@ -725,8 +726,8 @@ public class NetworkApi {
         ApplicationInfo appInfo = null;
         String msg = "";
         try {
-            appInfo = MyApplication.getInstance().getPackageManager()
-                    .getApplicationInfo(MyApplication.getInstance().getPackageName(), PackageManager.GET_META_DATA);
+            appInfo = Box.getApp().getPackageManager()
+                    .getApplicationInfo(Box.getApp().getPackageName(), PackageManager.GET_META_DATA);
             msg = appInfo.metaData.getString("com.gcml.version");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -740,11 +741,11 @@ public class NetworkApi {
         if (info == null) {
             return;
         }
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureData(MyApplication.getInstance().userId, info)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -820,7 +821,7 @@ public class NetworkApi {
      * @param successCallback
      * @param failedCallback
      */
-    public static void getMyBaseData(
+    public static void  getMyBaseData(
             NetworkManager.SuccessCallback<UserInfoBean> successCallback, NetworkManager.FailedCallback failedCallback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("bid", MyApplication.getInstance().userId);
@@ -837,11 +838,11 @@ public class NetworkApi {
     public static void getTemperatureHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<TemperatureHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<TemperatureHistory>>() {
                             @Override
@@ -897,11 +898,11 @@ public class NetworkApi {
      */
     public static void getBloodpressureHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<BloodPressureHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<BloodPressureHistory>>() {
                             @Override
@@ -957,11 +958,11 @@ public class NetworkApi {
     public static void getBloodSugarHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<BloodSugarHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<BloodSugarHistory>>() {
                             @Override
@@ -1014,11 +1015,11 @@ public class NetworkApi {
      */
     public static void getBloodOxygenHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<BloodOxygenHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<BloodOxygenHistory>>() {
                             @Override
@@ -1073,11 +1074,11 @@ public class NetworkApi {
     public static void getHeartRateHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<HeartRateHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<HeartRateHistory>>() {
                             @Override
@@ -1131,11 +1132,11 @@ public class NetworkApi {
     public static void getPulseHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<PulseHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<PulseHistory>>() {
                             @Override
@@ -1189,11 +1190,11 @@ public class NetworkApi {
     public static void getCholesterolHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<CholesterolHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<CholesterolHistory>>() {
                             @Override
@@ -1247,11 +1248,11 @@ public class NetworkApi {
      */
     public static void getBUAHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<BUA>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<BUA>>() {
                             @Override
@@ -1306,11 +1307,11 @@ public class NetworkApi {
     public static void getECGHistory(String start, String end, String temp, final NetworkManager.SuccessCallback<ArrayList<ECGHistory>> successCallback, final NetworkManager.FailedCallback failedCallback
     ) {
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
-                Repository repository = Repository.getInstance(MyApplication.getInstance());
+                Repository repository = Repository.getInstance(Box.getApp());
                 repository.measureDatas(MyApplication.getInstance().userId, start, end, temp)
                         .map(new Function<List<DataInfoBean>, ArrayList<ECGHistory>>() {
                             @Override

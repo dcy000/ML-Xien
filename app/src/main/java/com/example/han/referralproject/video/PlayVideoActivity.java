@@ -47,11 +47,6 @@ public class PlayVideoActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSuperVideoPlayer.resume();
-    }
 
     @Override
     protected void onPause() {

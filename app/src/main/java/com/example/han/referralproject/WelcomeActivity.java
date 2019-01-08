@@ -23,6 +23,7 @@ import com.example.han.referralproject.new_music.MusicService;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.UpdateAppManager;
 import com.example.han.referralproject.util.WiFiUtil;
+import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.register.lude.LudeAuthActivity;
 
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class WelcomeActivity extends BaseActivity {
 
     //判断服务是否已经启动
     private boolean isWorked(String className) {
-        ActivityManager myManager = (ActivityManager) MyApplication.getInstance().getSystemService(
+        ActivityManager myManager = (ActivityManager) Box.getApp().getSystemService(
                 Context.ACTIVITY_SERVICE);
         ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager
                 .getRunningServices(200);

@@ -25,8 +25,6 @@ import com.example.han.referralproject.R;
 import com.example.han.referralproject.activity.AgreementActivity;
 import com.example.han.referralproject.activity.BaseActivity;
 import com.example.han.referralproject.activity.WifiConnectActivity;
-import com.example.han.referralproject.application.MyApplication;
-import com.example.han.referralproject.bean.UserInfoBean;
 import com.example.han.referralproject.facerecognition.AuthenticationActivity;
 import com.example.han.referralproject.facerecognition.CreateGroupListener;
 import com.example.han.referralproject.facerecognition.FaceAuthenticationUtils;
@@ -36,6 +34,8 @@ import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.speechsynthesis.PinYinUtils;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
+import com.gzq.lib_core.base.Box;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.iflytek.cloud.IdentityResult;
 import com.iflytek.cloud.SpeechError;
 import com.medlink.danbogh.cache.Repository;
@@ -92,8 +92,8 @@ public class SignInActivity extends BaseActivity {
         tvAgree.setText(agreeBuilder);
         checkInput();
         ((TextView) findViewById(R.id.tv_version)).setText(getLocalVersionName());
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless)) {
             if (!TextUtils.isEmpty(netless)) {
                 etPassword.setVisibility(View.GONE);
@@ -183,8 +183,8 @@ public class SignInActivity extends BaseActivity {
             return;
         }
 
-        String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-        String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+        String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+        String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
         if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
             String idcard = etPhone.getText().toString().trim();
             if (!Utils.checkIdCard1(idcard)) {
@@ -236,6 +236,7 @@ public class SignInActivity extends BaseActivity {
         NetworkApi.login(etPhone.getText().toString(), etPassword.getText().toString(), new NetworkManager.SuccessCallback<UserInfoBean>() {
             @Override
             public void onSuccess(UserInfoBean response) {
+                Box.getSessionManager().setUser(response);
                 checkGroup(response.xfid);
                 new JpushAliasUtils(SignInActivity.this).setAlias("user_" + response.bid);
                 LocalShared.getInstance(mContext).setUserInfo(response);

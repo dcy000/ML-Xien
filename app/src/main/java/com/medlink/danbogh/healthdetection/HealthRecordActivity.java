@@ -60,6 +60,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.utils.Handlers;
 import com.medlink.danbogh.utils.T;
 import com.medlink.danbogh.utils.UiUtils;
@@ -244,8 +245,8 @@ public class HealthRecordActivity extends BaseActivity implements View.OnClickLi
         tvRecordQrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String netless = LocalShared.getInstance(MyApplication.getInstance()).getString("netless");
-                String noNetless = LocalShared.getInstance(MyApplication.getInstance()).getString("noNetless");
+                String netless = LocalShared.getInstance(Box.getApp()).getString("netless");
+                String noNetless = LocalShared.getInstance(Box.getApp()).getString("noNetless");
                 if (TextUtils.isEmpty(noNetless) && !TextUtils.isEmpty(netless)) {
                     T.show("无网模式下无法使用");
                     return;

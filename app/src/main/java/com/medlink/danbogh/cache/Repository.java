@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.example.han.referralproject.bean.DataInfoBean;
-import com.example.han.referralproject.bean.UserInfoBean;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.medlink.danbogh.cache.exception.UserExistException;
 import com.medlink.danbogh.cache.exception.UserNotExistException;
 

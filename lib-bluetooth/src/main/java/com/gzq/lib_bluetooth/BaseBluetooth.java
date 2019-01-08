@@ -204,7 +204,7 @@ public abstract class BaseBluetooth implements LifecycleObserver {
             if (searchHelper != null) {
                 searchHelper.clear();
             } else {
-                BluetoothStore.getInstance().getClient().stopSearch();
+                BluetoothStore.getClient().stopSearch();
             }
         }
         //Fragment中使用需要提前释放部分资源，因为Fragment走到onDestroy的时机很晚
@@ -222,7 +222,7 @@ public abstract class BaseBluetooth implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
         isOnDestroy = true;
-        BluetoothStore.getInstance().getClient().stopSearch();
+        BluetoothStore.getClient().stopSearch();
         searchHelper = null;
         if (connectHelper != null) {
             connectHelper.clear();

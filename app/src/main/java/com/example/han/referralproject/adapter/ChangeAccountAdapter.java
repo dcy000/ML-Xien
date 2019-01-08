@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.example.han.referralproject.R;
 import com.example.han.referralproject.application.MyApplication;
-import com.example.han.referralproject.bean.UserInfoBean;
 import com.example.han.referralproject.constant.ConstantData;
 import com.example.han.referralproject.imageview.CircleImageView;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.bean.UserInfoBean;
 import com.medlink.danbogh.call2.NimAccountHelper;
 import com.medlink.danbogh.utils.JpushAliasUtils;
 import com.squareup.picasso.Picasso;

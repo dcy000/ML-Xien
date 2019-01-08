@@ -107,7 +107,7 @@ public class TemperatureMeasureActivity extends AppCompatActivity implements Vie
             } else {
                 wenduResult = mWenduResults[2];
             }
-            MLVoiceSynthetize.startSynthesize(this, String.format(getString(R.string.tips_result_wendu), datas[0], wenduResult), false);
+            MLVoiceSynthetize.startSynthesize(String.format(getString(R.string.tips_result_wendu), datas[0], wenduResult), false);
             if (!isPostData) {
                 isPostData = true;
                 //上传数据

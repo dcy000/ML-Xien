@@ -1,0 +1,21 @@
+<resources>
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation">发生意外错误。\n抱歉，给您带来不便。</string>
+    <string name="customactivityoncrash_error_activity_restart_app">重新启动</string>
+    <string name="customactivityoncrash_error_activity_close_app">关闭程序</string>
+    <string name="customactivityoncrash_error_activity_error_details">错误日志</string>
+    <string name="customactivityoncrash_error_activity_error_details_title">错误详情</string>
+    <string name="customactivityoncrash_error_activity_error_details_close">关闭</string>
+    <string name="customactivityoncrash_error_activity_error_details_copy">复制日志</string>
+    <string name="customactivityoncrash_error_activity_error_details_copied">复制日志</string>
+    <string name="customactivityoncrash_error_activity_error_details_clipboard_label">错误信息</string>
+    <string name="upload_data_success">数据上传成功</string>
+    <string name="do_uploading">正在上传</string>
+    <string name="do_register">正在注册</string>
+    <string name="do_login">正在登录</string>
+    <string name="doctor_remind">您的预约时间到了</string>
+    <string name="yuyue_video">预&#160;&#160;约&#160;&#160;视&#160;&#160;频</string>
+    <string name="yuyue_tim">主人您的预约时间到了，请及时和医生进行视频通话</string>
+    <string name="sign_up_phone_tip">主人,请输入您的手机号码</string>
+    <string name="sign_up_code_tip">主人,请输入验证码</string>
+    <string name="mp_user_help">主人，认真阅读用户须知，帮助您完成签约</string>
+</resources>

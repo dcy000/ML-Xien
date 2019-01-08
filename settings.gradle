@@ -17,7 +17,12 @@ include ':app',
         ':circleindicator',
         ':lib-utils',
         ':lib-bluetooth', ':unit',
-        ':sdk-maibobo'
+        ':sdk-maibobo',
+        ':lib-core',
+        ':lib-video',
+        ':lib-voice',
+        ':lib-widget',
+        ':module-ecg'
 
 
 

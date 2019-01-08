@@ -26,15 +26,15 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.inuker.bluetooth:library:1.4.0'
     implementation rootProject.ext.dependencies["rxpermissions2"]
-//    implementation project(':lib-core')
+    //    implementation project(':lib-core')
     implementation rootProject.ext.dependencies["support-v4"]
     implementation rootProject.ext.dependencies["rxpermissions2"]
     //google官方数据库框架room
     implementation rootProject.ext.dependencies["room-runtime"]
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
     implementation rootProject.ext.dependencies["room-rxjava2"]
-
     //Rxjava生命周期管理
     implementation rootProject.ext.dependencies["autodispose"]
     implementation rootProject.ext.dependencies["autodispose-arch"]
+    implementation project(':lib-core')
 }

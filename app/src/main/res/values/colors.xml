@@ -64,4 +64,5 @@
     <color name="config_color_alert_btn">#3f86fc</color>
     <color name="config_color_appthema">#3f86fc</color>
     <color name="config_color_base_3">#333333</color>
+    <color name="default_bg">#aa000000</color>
 </resources>

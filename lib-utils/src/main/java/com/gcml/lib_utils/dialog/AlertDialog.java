@@ -2,6 +2,8 @@ package com.gcml.lib_utils.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +120,11 @@ public class AlertDialog {
         });
         return this;
     }
-
+    public AlertDialog setNegativeButtonColor(@ColorRes int Color){
+        int color = ContextCompat.getColor(context, Color);
+        btn_neg.setTextColor(color);
+        return this;
+    }
     private void setLayout() {
         if (showMsg) {
             txt_msg.setVisibility(View.VISIBLE);

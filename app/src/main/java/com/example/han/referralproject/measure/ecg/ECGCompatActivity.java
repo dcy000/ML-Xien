@@ -61,7 +61,7 @@ public class ECGCompatActivity extends ToolbarBaseActivity implements FragmentCh
 
     private void playVideo() {
         mToolbar.setVisibility(View.GONE);
-        mTitleText.setText("心 电 测 量");
+        mTitleText.setText("心 电 检 测");
         mVideo.setVisibility(View.VISIBLE);
         mViewOver.setVisibility(View.VISIBLE);
         mVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.tips_xindian));

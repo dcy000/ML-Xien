@@ -68,6 +68,7 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main2);
         ButterKnife.bind(this);
+        mTitleText.setText("健 康 检 测");
         mToolbar.setVisibility(View.VISIBLE);
         isTest = getIntent().getBooleanExtra("isTest", false);
 

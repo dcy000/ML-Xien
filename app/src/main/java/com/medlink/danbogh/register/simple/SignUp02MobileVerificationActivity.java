@@ -189,7 +189,12 @@ public class SignUp02MobileVerificationActivity extends BaseActivity {
             return;
         }
 
-        if (code.contains(mCode)) {
+        if (TextUtils.isEmpty(mCode)){
+            T.show("验证码错误");
+            speak("验证码错误");
+            return;
+        }
+        if (mCode.contains(code)) {
             T.show("验证码正确");
             if (!forResult) {
                 navToNext();

@@ -70,6 +70,7 @@ public class ChineseMedicineMonitorActivity extends BaseActivity implements View
                         cunrrentItem.setText(1 + "/" + count);
                     }
                 })
+                .setNegativeButtonColor(R.color.config_color_alert_btn)
                 .setPositiveButton("男性", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

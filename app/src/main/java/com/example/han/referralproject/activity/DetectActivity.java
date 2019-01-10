@@ -221,6 +221,7 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
     private int lowId;
     private ConstraintSet highSet;
     private ConstraintSet lowSet;
+    private ImageView ivXuetang;
 
     private void applyIndicatorAnimation(boolean high, int value) {
         int targetId;
@@ -1111,6 +1112,14 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
 
         clPressure = (ConstraintLayout) findViewById(R.id.device_cl_pressure);
 
+        ivXuetang=findViewById(R.id.iv_xuetang);
+        if (xuetangTimeFlag==0){
+            ivXuetang.setImageResource(R.drawable.xxtang);
+        }else if (xuetangTimeFlag==1){
+            ivXuetang.setImageResource(R.drawable.xxxxtang);
+        }else if (xuetangTimeFlag==2){
+            ivXuetang.setImageResource(R.drawable.xxxtang);
+        }
         setEnableListeningLoop(false);
 
         mButton.setOnClickListener(new View.OnClickListener() {

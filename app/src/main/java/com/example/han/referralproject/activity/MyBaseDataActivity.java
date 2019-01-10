@@ -117,7 +117,7 @@ public class MyBaseDataActivity extends BaseActivity implements View.OnClickList
                         .into(mHead);
                 mName.setText(response.bname);
 
-                mAge.setText(response.age + "岁");
+                mAge.setText(Utils.age(response.sfz)-1 + "岁");
                 mSex.setText(response.sex);
                 mHeight.setText(TextUtils.isEmpty(response.height) ? "暂未填写" : response.height + "cm");
                 mWeight.setText(TextUtils.isEmpty(response.weight) ? "暂未填写" : response.weight + "Kg");

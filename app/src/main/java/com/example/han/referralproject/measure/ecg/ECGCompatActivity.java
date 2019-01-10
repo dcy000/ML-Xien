@@ -77,7 +77,7 @@ public class ECGCompatActivity extends ToolbarBaseActivity implements FragmentCh
                 mVideo.setVisibility(View.GONE);
                 mViewOver.setVisibility(View.GONE);
                 mToolbar.setVisibility(View.VISIBLE);
-                mTitleText.setText("心 电 测 量");
+                mTitleText.setText("心 电 检 测");
                 int device = (int) SPUtil.get(Bluetooth_Constants.SP.SP_SAVE_DEVICE_ECG, 0);
                 if (device == 0) {
                     showChooseDeviceFragment();
@@ -106,7 +106,7 @@ public class ECGCompatActivity extends ToolbarBaseActivity implements FragmentCh
             baseFragment = new BoShengFragment();
         }
 
-        mTitleText.setText("心 电 测 量");
+        mTitleText.setText("心 电 检 测");
         mRightView.setImageResource(R.drawable.health_measure_ic_bluetooth_disconnected);
 
         baseFragment.setOnDealVoiceAndJumpListener(this);
@@ -279,7 +279,7 @@ public class ECGCompatActivity extends ToolbarBaseActivity implements FragmentCh
                     mVideo.pause();
                 }
                 mToolbar.setVisibility(View.VISIBLE);
-                mTitleText.setText("心 电 测 量");
+                mTitleText.setText("心 电 检 测");
                 int device = (int) SPUtil.get(Bluetooth_Constants.SP.SP_SAVE_DEVICE_ECG, 0);
                 if (device == 0) {
                     showChooseDeviceFragment();

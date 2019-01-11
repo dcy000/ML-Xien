@@ -676,6 +676,7 @@
             android:screenOrientation="landscape" />
         <activity android:name=".recyclerview.DoctorappoActivity2"
             android:screenOrientation="landscape"/>
+        <activity android:name=".recharge.QRCodeAliPayActivity" />
     </application>
 
 </manifest>

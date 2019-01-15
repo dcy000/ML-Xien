@@ -260,22 +260,6 @@ public class BluetoothManager extends ContextWrapper {
             } else if (BluetoothService.ACTION_ERROR_MEASURE.equals(action)) {
                 //测量失败
                 Log.v(TAG, "测量失败");
-//				sendData("cc80020301030003");
-//				Log.v(TAG, "发送停止测量指令：" + "cc80020301030003");
-//				new Thread(new Runnable() {
-//					@Override
-//					public void run() {
-//						try {
-//							Looper.prepare();
-//							Thread.sleep(8000);
-//							sendData("cc80020301040004");
-//							Log.v(TAG, "发送关机指令：" + "cc80020301040004");
-//							mOnBTMeasureListener.onMeasureError();
-//						} catch (InterruptedException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//				}).start();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

@@ -1112,12 +1112,12 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
 
         clPressure = (ConstraintLayout) findViewById(R.id.device_cl_pressure);
 
-        ivXuetang=findViewById(R.id.iv_xuetang);
-        if (xuetangTimeFlag==0){
+        ivXuetang = findViewById(R.id.iv_xuetang);
+        if (xuetangTimeFlag == 0) {
             ivXuetang.setImageResource(R.drawable.xxtang);
-        }else if (xuetangTimeFlag==1){
+        } else if (xuetangTimeFlag == 1) {
             ivXuetang.setImageResource(R.drawable.xxxxtang);
-        }else if (xuetangTimeFlag==2){
+        } else if (xuetangTimeFlag == 2) {
             ivXuetang.setImageResource(R.drawable.xxxtang);
         }
         setEnableListeningLoop(false);
@@ -1686,7 +1686,7 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
             // 搜索发现设备时，取得设备的信息；注意，这里有可能重复搜索同一设备
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.e(TAG, "onReceive: >>>>>>>>>>>>>>"+device.getName()+"<<<<<<<<<"+device.getAddress() );
+                Log.e(TAG, "onReceive: >>>>>>>>>>>>>>" + device.getName() + "<<<<<<<<<" + device.getAddress());
                 String deviceName = "FSRKB-EWQ01";
                 switch (detectType) {
                     case Type_Wendu:
@@ -1715,8 +1715,8 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
 //                        deviceName = "BeneCheck TC-B DONGLE";
                         break;
                 }
-
-                if (detectType == Type_Xueya && !TextUtils.isEmpty(device.getName()) && device.getName().startsWith("BP06D")) {
+                //脉搏波
+                if (detectType == Type_Xueya && !TextUtils.isEmpty(device.getName()) && (device.getName().startsWith("BP06D") || device.getName().startsWith("RBP"))) {
                     stopSearch();
                     mDeviceAddress = device.getAddress();
                     bluetoothManager = com.gcml.sdk_maibobo.BluetoothManager.getInstance(mContext);

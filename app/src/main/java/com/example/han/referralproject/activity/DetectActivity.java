@@ -1656,6 +1656,9 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
     private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            if (Type_Xueya.equals(detectType)) {
+                findViewById(R.id.device_cl_pressure).setVisibility(View.VISIBLE);
+            }
             mVideoView.setVisibility(View.GONE);
             mOverView.setVisibility(View.GONE);
         }
@@ -1792,6 +1795,8 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onRunning(String running) {
+            applyIndicatorAnimation(true, Integer.parseInt(running));
+            applyIndicatorAnimation(false, 0);
             //测量过程中的压力值
             mHighPressTv.setText(running);
         }
@@ -1811,6 +1816,8 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
             mLowPressTv.setText(checkDiastole + "");
             int checkHeartRate = result.getCheckHeartRate();
             mPulseTv.setText(checkHeartRate + "");
+            applyIndicatorAnimation(true, checkShrink);
+            applyIndicatorAnimation(false, checkDiastole);
             uploadXueyaResult(checkShrink, checkDiastole, checkHeartRate, false, null);
         }
 

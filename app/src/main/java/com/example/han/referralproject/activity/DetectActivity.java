@@ -1795,8 +1795,9 @@ public class DetectActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onRunning(String running) {
-            applyIndicatorAnimation(true, Integer.parseInt(running));
-            applyIndicatorAnimation(false, 0);
+            int value = Integer.parseInt(running);
+            applyIndicatorAnimation(true, value);
+            mSvValue.setTargetValue(value);
             //测量过程中的压力值
             mHighPressTv.setText(running);
         }

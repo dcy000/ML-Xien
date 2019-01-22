@@ -29,6 +29,7 @@ import com.example.han.referralproject.facerecognition.AuthenticationActivity;
 import com.example.han.referralproject.facerecognition.CreateGroupListener;
 import com.example.han.referralproject.facerecognition.FaceAuthenticationUtils;
 import com.example.han.referralproject.facerecognition.JoinGroupListener;
+import com.example.han.referralproject.network.API;
 import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.speechsynthesis.PinYinUtils;
@@ -36,6 +37,11 @@ import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.bean.UserInfoBean;
+import com.gzq.lib_core.http.exception.ApiException;
+import com.gzq.lib_core.http.model.HttpResult;
+import com.gzq.lib_core.http.observer.CommonObserver;
+import com.gzq.lib_core.utils.RxUtils;
+import com.gzq.lib_core.utils.ToastUtils;
 import com.iflytek.cloud.IdentityResult;
 import com.iflytek.cloud.SpeechError;
 import com.medlink.danbogh.cache.Repository;
@@ -59,6 +65,7 @@ import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class SignInActivity extends BaseActivity {
@@ -236,19 +243,7 @@ public class SignInActivity extends BaseActivity {
         NetworkApi.login(etPhone.getText().toString(), etPassword.getText().toString(), new NetworkManager.SuccessCallback<UserInfoBean>() {
             @Override
             public void onSuccess(UserInfoBean response) {
-                Box.getSessionManager().setUser(response);
-                checkGroup(response.xfid);
-                new JpushAliasUtils(SignInActivity.this).setAlias("user_" + response.bid);
-                LocalShared.getInstance(mContext).setUserInfo(response);
-                LocalShared.getInstance(mContext).addAccount(response.bid, response.xfid);
-                LocalShared.getInstance(mContext).setSex(response.sex);
-                LocalShared.getInstance(mContext).setUserPhoto(response.userPhoto);
-                LocalShared.getInstance(mContext).setUserAge(response.age);
-                LocalShared.getInstance(mContext).setUserHeight(response.height);
-                hideLoadingDialog();
-                startActivity(new Intent(mContext, MainActivity.class));
-                finish();
-                Logger.e("本次登录人的userid" + response.bid);
+                queryUserInfo(response.bid);
             }
         }, new NetworkManager.FailedCallback() {
             @Override
@@ -257,6 +252,49 @@ public class SignInActivity extends BaseActivity {
                 T.show("账号或密码错误");
             }
         });
+    }
+
+    private void queryUserInfo(String userId) {
+        Box.getRetrofit(API.class)
+                .queryUserInfo(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(RxUtils.autoDisposeConverter(this))
+                .subscribe(new DefaultObserver<HttpResult<UserInfoBean>>() {
+                    @Override
+                    public void onNext(HttpResult<UserInfoBean> userInfoBeanHttpResult) {
+                        UserInfoBean response = userInfoBeanHttpResult.getData();
+                        if (response == null) {
+                            hideLoadingDialog();
+                            ToastUtils.showLong("登录失败");
+                            return;
+                        }
+                        Box.getSessionManager().setUser(response);
+                        checkGroup(response.xfid);
+                        new JpushAliasUtils(SignInActivity.this).setAlias("user_" + response.bid);
+                        LocalShared.getInstance(mContext).setUserInfo(response);
+                        LocalShared.getInstance(mContext).addAccount(response.bid, response.xfid);
+                        LocalShared.getInstance(mContext).setSex(response.sex);
+                        LocalShared.getInstance(mContext).setUserPhoto(response.userPhoto);
+                        LocalShared.getInstance(mContext).setUserAge(response.age);
+                        LocalShared.getInstance(mContext).setUserHeight(response.height);
+                        hideLoadingDialog();
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
+                        Logger.e("本次登录人的userid" + response.bid);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtils.showShort(e.getMessage());
+                        hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void checkGroup(final String xfid) {

@@ -105,7 +105,6 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation project(':expand-textview-library')
     implementation project(':lib-idcard-reader')
     implementation project(':unit')
@@ -114,8 +113,6 @@ dependencies {
     implementation(name: 'vivachek-ble-sdk-1.0.0', ext: 'aar')
     implementation 'com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x'
     implementation 'com.github.VictorAlbertos.Jolyglot:gson:0.0.4'
-
-
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation rootProject.ext.dependencies["support-v4"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
@@ -207,28 +204,38 @@ dependencies {
 
     //
     implementation project(':module-edu')
+
     //
     implementation('github.hellocsl:GalleryLayoutManager:1.0.6') {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
+
     //
     implementation project(':sdk-maibobo')
+
     //
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
     //
     implementation project(':lib-bluetooth')
+
     //
     implementation project(':lib-utils')
+
     //
     implementation 'com.orhanobut:logger:2.1.1'
+
     //
     implementation project(':lib-brightness')
+
     //
     implementation project(':lib-rulerview')
+
     //
     implementation 'com.facebook.fresco:fresco:1.7.1'
     implementation project(':module-ecg')
     implementation project(':lib-core')
     implementation project(':lib-widget')
     implementation project(':lib-voice')
+    implementation project(':lib_idcard_cvr')
 }

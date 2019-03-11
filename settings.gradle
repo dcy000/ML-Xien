@@ -22,7 +22,7 @@ include ':app',
         ':lib-video',
         ':lib-voice',
         ':lib-widget',
-        ':module-ecg'
+        ':module-ecg', ':lib_idcard_cvr'
 
 
 

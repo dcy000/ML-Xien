@@ -24,8 +24,10 @@ import com.example.han.referralproject.facerecognition.JoinGroupListener;
 import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
+import com.gcml.lib_idcard_cvr.BluetoothController;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.bean.UserInfoBean;
+import com.huashi.bluetooth.IDCardInfo;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.FaceRequest;
 import com.iflytek.cloud.IdentityResult;
@@ -67,15 +69,18 @@ import io.reactivex.schedulers.Schedulers;
 /**
  *
  */
-public class SignInIdCardActivity extends BaseActivity {
+public class SignInIdCardActivity extends BaseActivity implements BluetoothController.CVRConnect, BluetoothController.CVRRead {
 
     private static final String TAG = "MyBluetooth";
     private static final String FILTER = "KT8000";
+    private static final String FILTER2 = "CVR";
     private static final int PROTOCOL_TYPE = 0;
 
     private BluetoothAdapter bluetoothAdapter;
     private BtReadClient client;
     private volatile boolean isRegistered;
+    private BluetoothController controller;
+    private IdCardType type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,8 @@ public class SignInIdCardActivity extends BaseActivity {
         mRightView.setImageResource(R.drawable.icon_refresh);
         registerReceiver();
         mTitleText.setText("身  份  证  登  录");
+        controller = new BluetoothController();
+        controller.init(this);
         client = BtReadClient.getInstance();
         client.setBluetoothListener(onBluetoothListener);
         if (bluetoothAdapter == null) {
@@ -100,6 +107,7 @@ public class SignInIdCardActivity extends BaseActivity {
     @Override
     protected void backMainActivity() {
         LocalShared.getInstance(this).setString(FILTER, "");
+        LocalShared.getInstance(this).setString(FILTER2, "");
         targetDevice = null;
         removeBounds();
         btHandler().post(oneShutRunnable);
@@ -161,6 +169,11 @@ public class SignInIdCardActivity extends BaseActivity {
                 return;
             }
             String address = LocalShared.getInstance(this).getString(FILTER);
+            String address2 = LocalShared.getInstance(this).getString(FILTER2);
+            if (!TextUtils.isEmpty(address2) && BluetoothAdapter.checkBluetoothAddress(address)) {
+                controller.connect(address2, this);
+                return;
+            }
             if (!TextUtils.isEmpty(address) && BluetoothAdapter.checkBluetoothAddress(address)) {
                 Log.d(TAG, "initDevice: LocalShared");
                 BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
@@ -309,10 +322,22 @@ public class SignInIdCardActivity extends BaseActivity {
                     if (device != null) {
                         String name = device.getName();
                         if (!TextUtils.isEmpty(name)) {
+                            Log.e(TAG, "onReceive: 搜到的设备：" + device.getName() + "----" + device.getAddress());
+                            //CVR读卡器
+                            if (name.toUpperCase().startsWith(FILTER2)) {
+                                if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
+                                    bluetoothAdapter.cancelDiscovery();
+                                }
+                                type = IdCardType.ID_CARD_VCR;
+                                controller.connect(device.getAddress(), SignInIdCardActivity.this);
+                                return;
+                            }
+                            //KT8000读卡器
                             if (name.toUpperCase().startsWith(FILTER)) {
                                 if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
                                     bluetoothAdapter.cancelDiscovery();
                                 }
+                                type = IdCardType.ID_CARD_VCR;
                                 targetDevice = device;
                                 createBond(device);
                             }
@@ -420,7 +445,7 @@ public class SignInIdCardActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            onReadSuccess(item);
+                            onReadSuccess(item, null);
                         }
                     });
                 } else {
@@ -551,21 +576,33 @@ public class SignInIdCardActivity extends BaseActivity {
     }
 
     private void onReadFailed() {
-        item = null;
+        if (type == IdCardType.ID_CARD_KT8000) {
+            item = null;
 //        speak("请刷身份证");
-        btHandler().postDelayed(readRunnable, 1500);
+            btHandler().postDelayed(readRunnable, 1500);
+        } else if (type == IdCardType.ID_CARD_VCR) {
+            readIdCardByVCR();
+        }
+
     }
 
     private void onDeviceNotFound() {
         item = null;
-        speak("找不到设备");
+//        speak("找不到设备");
         btHandler().postDelayed(oneShutRunnable, 1000);
     }
 
     private IDCardItem item;
+    private IDCardInfo info;
+    private boolean isReadSuccess=false;
+    private void onReadSuccess(IDCardItem item, IDCardInfo idCardInfo) {
+        if (isReadSuccess){
+            return;
+        }
+        isReadSuccess=true;
 
-    private void onReadSuccess(IDCardItem item) {
         this.item = item;
+        this.info = idCardInfo;
         speak("欢迎使用西恩智能医生");
 
         String netless = LocalShared.getInstance(this).getString("netless");
@@ -577,14 +614,16 @@ public class SignInIdCardActivity extends BaseActivity {
         }
     }
 
+    private String headFileLocalPath = "";
+
     private void onRegisterOrLoginNetless() {
         final UserInfoBean user = new UserInfoBean();
         final LocalShared shared = LocalShared.getInstance(this);
-        user.bid = item.certNumber;
-        user.bname = item.partyName;
-        user.sex = item.gender;
-        user.dz = item.certAddress;
-        user.sfz = item.certNumber;
+        user.bid = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
+        user.bname = type == IdCardType.ID_CARD_KT8000 ? item.partyName : info.getPeopleName();
+        user.sex = type == IdCardType.ID_CARD_KT8000 ? item.gender : item.gender;
+        user.dz = type == IdCardType.ID_CARD_KT8000 ? item.certAddress : info.getAddr();
+        user.sfz = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
         user.height = String.valueOf(shared.getSignUpHeight());
         user.weight = String.valueOf(shared.getSignUpWeight());
         user.bloodType = shared.getSignUpBloodType();
@@ -592,7 +631,8 @@ public class SignInIdCardActivity extends BaseActivity {
         user.smoke = shared.getSignUpSmoke();
         user.drink = shared.getSignUpDrink();
         final Repository repository = Repository.getInstance(this);
-        user.userPhoto = repository.getCacheDir().getAbsolutePath() + File.separator + item.certNumber;
+        user.userPhoto = type == IdCardType.ID_CARD_KT8000 ?
+                repository.getCacheDir().getAbsolutePath() + File.separator + item.certNumber : headFileLocalPath;
         user.exerciseHabits = shared.getSignUpSport();
 
         Observable<UserInfoBean> rxUser = repository.registerOrLogin(user);
@@ -606,7 +646,11 @@ public class SignInIdCardActivity extends BaseActivity {
                         }
                         try {
                             FileOutputStream os = new FileOutputStream(file);
-                            item.picBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                            if (type == IdCardType.ID_CARD_KT8000) {
+                                item.picBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                            } else if (type == IdCardType.ID_CARD_VCR) {
+                                headBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                            }
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -634,25 +678,25 @@ public class SignInIdCardActivity extends BaseActivity {
     }
 
     private void onConfirmIdCardInfo() {
-        if (item == null) {
+        if (item == null && info == null) {
             return;
         }
         Intent intent = new Intent(this, IdCardInfoActivity.class);
-        intent.putExtra("name", item.partyName);
-        intent.putExtra("gender", item.gender);
-        intent.putExtra("nation", item.nation);
-        intent.putExtra("address", item.certAddress);
-        intent.putExtra("profile", item.picBitmap);
-        intent.putExtra("idCard", item.certNumber);
+        intent.putExtra("name", type == IdCardType.ID_CARD_KT8000 ? item.partyName : info.getPeopleName());
+        intent.putExtra("gender", type == IdCardType.ID_CARD_KT8000 ? item.gender : info.getSex());
+        intent.putExtra("nation", type == IdCardType.ID_CARD_KT8000 ? item.nation : info.getPeople());
+        intent.putExtra("address", type == IdCardType.ID_CARD_KT8000 ? item.certAddress : info.getAddr());
+        intent.putExtra("profile", type == IdCardType.ID_CARD_KT8000 ? item.picBitmap : headBitmap);
+        intent.putExtra("idCard", type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard());
         startActivityForResult(intent, 17);
     }
 
     private void onCheckRegistered() {
-        if (item == null) {
+        if (item == null && info == null) {
             return;
         }
         showLoadingDialog("加载中");
-        NetworkApi.isRegisteredByIdCard(item.certNumber, new NetworkManager.SuccessCallback<UserInfoBean>() {
+        NetworkApi.isRegisteredByIdCard(type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard(), new NetworkManager.SuccessCallback<UserInfoBean>() {
             @Override
             public void onSuccess(UserInfoBean response) {
                 hideLoadingDialog();
@@ -722,10 +766,10 @@ public class SignInIdCardActivity extends BaseActivity {
 
     private void onRegister(String phone) {
         final LocalShared shared = LocalShared.getInstance(this);
-        String name = item.partyName;
-        String gender = item.gender;
-        String address = item.certAddress;
-        String idCard = item.certNumber;
+        String name = type == IdCardType.ID_CARD_KT8000 ? item.partyName : info.getPeopleName();
+        String gender = type == IdCardType.ID_CARD_KT8000 ? item.gender : info.getSex();
+        String address = type == IdCardType.ID_CARD_KT8000 ? item.certAddress : info.getAddr();
+        String idCard = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
         float height = shared.getSignUpHeight();
         float weight = shared.getSignUpWeight();
         String bloodType = shared.getSignUpBloodType();
@@ -858,7 +902,11 @@ public class SignInIdCardActivity extends BaseActivity {
 
     private void onFaceRegisterFailed() {
         Log.d(TAG, "onFaceRegisterFailed: ");
-        onReadFailed();
+        if (type == IdCardType.ID_CARD_KT8000) {
+            onReadFailed();
+        } else if (type == IdCardType.ID_CARD_VCR) {
+            readIdCardByVCR();
+        }
     }
 
     private Runnable faceRegisterRunnable() {
@@ -866,7 +914,7 @@ public class SignInIdCardActivity extends BaseActivity {
             faceRegisterRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    if (item == null || item.picBitmap == null) {
+                    if ((item == null || item.picBitmap == null) && (info == null || headBitmap == null)) {
                         onFaceRegisterFailed();
                         return;
                     }
@@ -874,7 +922,11 @@ public class SignInIdCardActivity extends BaseActivity {
                     ByteArrayOutputStream stream = null;
                     try {
                         stream = new ByteArrayOutputStream();
-                        item.picBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        if (type == IdCardType.ID_CARD_KT8000) {
+                            item.picBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        } else if (type == IdCardType.ID_CARD_VCR) {
+                            headBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        }
                         if (faceRequest == null) {
                             faceRequest = new FaceRequest(SignInIdCardActivity.this);
                         }
@@ -1063,6 +1115,9 @@ public class SignInIdCardActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (controller != null) {
+            controller.clear();
+        }
         if (isRegistered && receiver != null) {
             unregisterReceiver(receiver);
             isRegistered = false;
@@ -1074,7 +1129,11 @@ public class SignInIdCardActivity extends BaseActivity {
         }
         if (targetDevice != null) {
             String address = targetDevice.getAddress();
-            LocalShared.getInstance(this).setString(FILTER, address);
+            if (type == IdCardType.ID_CARD_VCR) {
+                LocalShared.getInstance(this).setString(FILTER2, address);
+            } else if (type == IdCardType.ID_CARD_KT8000) {
+                LocalShared.getInstance(this).setString(FILTER, address);
+            }
         }
 //        removeBond(targetDevice);
         if (bluetoothAdapter != null) {
@@ -1133,5 +1192,72 @@ public class SignInIdCardActivity extends BaseActivity {
 
     public void onRootClick(View view) {
         onReadFailed();
+    }
+
+    @Override
+    public void connect(String macAddress, boolean isSuccess) {
+        targetDevice = getRemoteDevice(macAddress);
+        //VCR读卡器连接成功
+        if (isSuccess) {
+            readIdCardByVCR();
+        }
+    }
+
+    private void readIdCardByVCR() {
+        //连接成功后200ms读取信息
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                controller.readIdCard(SignInIdCardActivity.this);
+            }
+        }, 200);
+    }
+    //VCR读卡器读取信息成功
+
+    private Bitmap headBitmap;
+
+    @Override
+    public void readSuccess(Bitmap head, String headFilePath, IDCardInfo idCardInfo) {
+        headBitmap = head;
+        headFileLocalPath = headFilePath;
+        onReadSuccess(null, idCardInfo);
+    }
+
+    //VCR读卡器读取信息失败
+    @Override
+    public void readFail() {
+        if (controller.isConnected()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //1.5s后尝试重新读取数据
+                    controller.readIdCard(SignInIdCardActivity.this);
+                }
+            }, 1500);
+        } else {
+            //连接断开了
+            if (targetDevice == null) {
+                return;
+            }
+            controller.connect(targetDevice.getAddress(), this);
+        }
+    }
+
+    private android.bluetooth.BluetoothDevice getRemoteDevice(String mac) {
+        if (!TextUtils.isEmpty(mac)) {
+            BluetoothAdapter adapter = getBluetoothAdapter();
+            if (adapter != null) {
+                return adapter.getRemoteDevice(mac);
+            }
+        }
+        return null;
+    }
+
+    private BluetoothAdapter getBluetoothAdapter() {
+        BluetoothAdapter mBluetoothAdapter = null;
+        if (mBluetoothAdapter == null) {
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        }
+        return mBluetoothAdapter;
     }
 }

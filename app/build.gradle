@@ -237,5 +237,5 @@ dependencies {
     implementation project(':lib-core')
     implementation project(':lib-widget')
     implementation project(':lib-voice')
-    implementation project(':lib_idcard_cvr')
+    implementation project(':lib-idcard-cvr')
 }

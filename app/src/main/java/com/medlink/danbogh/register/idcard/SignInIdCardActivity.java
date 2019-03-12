@@ -322,7 +322,7 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                     if (device != null) {
                         String name = device.getName();
                         if (!TextUtils.isEmpty(name)) {
-                            Log.e(TAG, "onReceive: 搜到的设备：" + device.getName() + "----" + device.getAddress());
+                            Log.i(TAG, "onReceive: 搜到的设备：" + device.getName() + "----" + device.getAddress());
                             //CVR读卡器
                             if (name.toUpperCase().startsWith(FILTER2)) {
                                 if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
@@ -594,12 +594,13 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
 
     private IDCardItem item;
     private IDCardInfo info;
-    private boolean isReadSuccess=false;
+    private boolean isReadSuccess = false;
+
     private void onReadSuccess(IDCardItem item, IDCardInfo idCardInfo) {
-        if (isReadSuccess){
+        if (isReadSuccess) {
             return;
         }
-        isReadSuccess=true;
+        isReadSuccess = true;
 
         this.item = item;
         this.info = idCardInfo;

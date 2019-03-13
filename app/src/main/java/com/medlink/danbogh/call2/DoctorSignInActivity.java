@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.han.referralproject.R;
 import com.medlink.danbogh.utils.T;
+import com.medlink.danbogh.utils.Utils;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
@@ -69,7 +70,7 @@ public class DoctorSignInActivity extends AppCompatActivity {
 
         if ("呼叫".equals(action)
                 && !TextUtils.isEmpty(id)) {
-            NimCallActivity.launch(this, id);
+            Utils.launchCallWithCheck(this, id);
         }
     }
 

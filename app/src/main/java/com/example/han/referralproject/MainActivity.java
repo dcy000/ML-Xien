@@ -41,6 +41,7 @@ import com.example.lenovo.rto.accesstoken.AccessToken;
 import com.example.lenovo.rto.accesstoken.AccessTokenModel;
 import com.example.lenovo.rto.http.HttpListener;
 import com.example.lenovo.rto.sharedpreference.EHSharedPreferences;
+import com.gcml.call.CallAuthHelper;
 import com.google.gson.Gson;
 import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.alarm.AlarmHelper;
@@ -270,7 +271,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onResume() {
-        NimAccountHelper.getInstance().login("user_" + MyApplication.getInstance().userId, "123456", null);
+//        NimAccountHelper.getInstance().login("user_" + MyApplication.getInstance().userId, "123456", null);
+        CallAuthHelper.getInstance().login("user_" + MyApplication.getInstance().userId, "123456", null);
         setEnableListeningLoop(false);
         super.onResume();
         NetworkApi.clueNotify(new NetworkManager.SuccessCallback<ArrayList<ClueInfoBean>>() {

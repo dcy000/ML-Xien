@@ -17,6 +17,8 @@ import com.example.han.referralproject.new_music.ToastUtils;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
 import com.example.lenovo.rto.sharedpreference.EHSharedPreferences;
+import com.gcml.call.CallApp;
+import com.gcml.call.CallHelper;
 import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_core.base.ui.IEvents;
 import com.gzq.lib_core.bean.UserInfoBean;
@@ -59,7 +61,7 @@ public class MyApplication implements AppLifecycle {
 
     @Override
     public void attachBaseContext(@NonNull Context base) {
-
+        CallApp.INSTANCE.attachBaseContext((Application) base.getApplicationContext(), base);
     }
 
     @Override
@@ -100,7 +102,8 @@ public class MyApplication implements AppLifecycle {
 
         SpeechUtility.createUtility(application, builder.toString());
 
-        NimInitHelper.getInstance().init(application, true);
+//        NimInitHelper.getInstance().init(application, true);
+        CallApp.INSTANCE.onCreate(application);
 
 //        initOkHttpUtils();
 

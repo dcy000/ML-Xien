@@ -18,7 +18,7 @@ import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.medlink.danbogh.alarm.AlarmHelper;
 import com.medlink.danbogh.alarm.AlarmModel;
-import com.medlink.danbogh.call2.NimCallActivity;
+import com.medlink.danbogh.utils.Utils;
 
 import org.litepal.crud.DataSupport;
 
@@ -75,7 +75,7 @@ public class DoctorAlarmActivity extends BaseActivity {
 
                 if (rows >= 1) {
 
-                    NimCallActivity.launch(DoctorAlarmActivity.this, "doctor_18940866148");
+                    Utils.launchCallWithCheck(DoctorAlarmActivity.this, "doctor_18940866148");
                     finish();
                 }
 

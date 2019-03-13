@@ -1,0 +1,38 @@
+//ext.alwaysLib=true
+//apply from: rootProject.file("build-base.gradle")
+apply plugin: 'com.android.library'
+
+android {
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+//        if (project.ext.runAsApp) {
+//            applicationId "com.gcml.call"
+//
+//            versionCode = rootProject.ext.android["versionCode"]
+//            versionName rootProject.ext.android["versionName"]
+//        }
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["timber"]
+
+    implementation 'com.netease.nimlib:basesdk:4.3.0'
+    implementation 'com.netease.nimlib:avchat:4.3.0'
+}

@@ -18,6 +18,7 @@ import com.example.han.referralproject.settting.activity.SettingActivity;
 import com.example.han.referralproject.shopping.OrderListActivity;
 import com.example.han.referralproject.tool.ToolsActivity;
 import com.example.han.referralproject.video.VideoListActivity;
+import com.gcml.call.CallHelper;
 import com.medlink.danbogh.call2.NimCallActivity;
 
 import butterknife.BindView;
@@ -71,7 +72,8 @@ public class PersonDetail2Fragment extends Fragment {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.iv_call_family:
-                NimCallActivity.launchNoCheck(getActivity(), MyApplication.getInstance().eqid);
+//                NimCallActivity.launchNoCheck(getActivity(), MyApplication.getInstance().eqid);
+                CallHelper.launch(getActivity(), MyApplication.getInstance().eqid);
                 break;
             case R.id.iv_tools:
                 startActivity(new Intent(getActivity(), ToolsActivity.class));

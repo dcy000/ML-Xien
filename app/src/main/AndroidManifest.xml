@@ -674,9 +674,13 @@
         <activity
             android:name=".measure.ecg.ECGCompatActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".recyclerview.DoctorappoActivity2"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".recyclerview.DoctorappoActivity2"
+            android:screenOrientation="landscape" />
         <activity android:name=".recharge.QRCodeAliPayActivity" />
+        <activity
+            android:name=".measure.BloodpressureMeasureActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

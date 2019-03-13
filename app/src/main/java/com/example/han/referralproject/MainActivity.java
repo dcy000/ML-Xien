@@ -41,6 +41,7 @@ import com.example.lenovo.rto.accesstoken.AccessToken;
 import com.example.lenovo.rto.accesstoken.AccessTokenModel;
 import com.example.lenovo.rto.http.HttpListener;
 import com.example.lenovo.rto.sharedpreference.EHSharedPreferences;
+import com.example.module_control_volume.VolumeControlFloatwindow;
 import com.google.gson.Gson;
 import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.alarm.AlarmHelper;
@@ -80,17 +81,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //启动音量控制悬浮按钮
+        VolumeControlFloatwindow.init(this.getApplicationContext());
         StatusBarFragment.show(getSupportFragmentManager(), R.id.fl_status_bar);
-
-     /*   mediaPlayer = MediaPlayer.create(this, R.raw.face_register);
-
-        mediaPlayer.start();//播放音乐*/
-//
-//        if (!isMyServiceRunning(AssistiveTouchService.class)) {
-//            Intent intent = new Intent(getApplicationContext(), AssistiveTouchService.class);
-//            startService(intent);
-//        }
 
         mToolbar.setVisibility(View.GONE);
         mImageView1 = (ImageView) findViewById(R.id.robot_con);
@@ -139,11 +132,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }, 1000);
 
-        if (!isMyServiceRunning(AssistiveTouchService.class)) {
-            Intent intent = new Intent(getApplicationContext(), AssistiveTouchService.class);
-            startService(intent);
-        }
-
         initBDAK();
     }
 
@@ -169,15 +157,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    public boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
 
     @Override

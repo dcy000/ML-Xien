@@ -17,6 +17,8 @@ import com.inuker.bluetooth.library.utils.BluetoothUtils;
 import java.util.List;
 import java.util.UUID;
 
+import timber.log.Timber;
+
 public class TemperaturePresenter extends BaseBluetooth {
 
     private TemperatureMeasureActivity context;
@@ -73,12 +75,12 @@ public class TemperaturePresenter extends BaseBluetooth {
                                     });
                             break;
                         case "MEDXING-IRT":
-
                             BluetoothStore.getClient().notify(address,
                                     UUID.fromString("0000ffb0-0000-1000-8000-00805f9b34fb"),
                                     UUID.fromString("0000ffb2-0000-1000-8000-00805f9b34fb"), new BleNotifyResponse() {
                                         @Override
                                         public void onNotify(UUID uuid, UUID uuid1, byte[] bytes) {
+                                            Timber.i("美的连耳温枪耳闻：" + bytes.length);
                                             if (bytes.length == 4) {
                                                 float result = ((float) (bytes[3] << 8) + (float) (bytes[2] & 0xff)) / 10;
                                                 if (result < 50) {
@@ -110,7 +112,7 @@ public class TemperaturePresenter extends BaseBluetooth {
     protected void disConnected() {
         handler = new Handler();
         if (context != null) {
-            MLVoiceSynthetize.startSynthesize( "设备已断开", false);
+            MLVoiceSynthetize.startSynthesize("设备已断开", false);
         }
         handler.postDelayed(new Runnable() {
             @Override

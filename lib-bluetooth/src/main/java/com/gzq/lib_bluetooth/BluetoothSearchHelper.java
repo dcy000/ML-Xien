@@ -29,7 +29,6 @@ public class BluetoothSearchHelper {
         }
         isOnSearching = true;
         BluetoothStore.getClient().search(request, search);
-
     }
 
     public void searchBle(int periodMill, int times, SearchListener listener, String... names) {

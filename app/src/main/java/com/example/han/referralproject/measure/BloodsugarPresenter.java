@@ -106,7 +106,7 @@ public class BloodsugarPresenter extends BaseBluetooth implements OnBleListener 
     }
 
     @Override
-    protected boolean isSelfConnect() {
+    protected boolean isSelfConnect(String name,String address) {
         return true;
     }
 

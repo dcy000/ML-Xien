@@ -40,6 +40,7 @@ public abstract class BaseBluetooth implements LifecycleObserver {
     private static final int NUMBER_SEARCHED = 5;
     private BluetoothSearchHelper searchHelper;
     private BluetoothConnectHelper connectHelper;
+    protected boolean isConnected;
 
     public BaseBluetooth(LifecycleOwner owner) {
         super();
@@ -161,7 +162,7 @@ public abstract class BaseBluetooth implements LifecycleObserver {
             if (searchHelper != null) {
                 searchHelper.clear();
             }
-            if (!isSelfConnect()) {
+            if (!isSelfConnect(device.getName(),device.getAddress())) {
                 connect(this.device.getAddress());
             }
         }
@@ -176,16 +177,19 @@ public abstract class BaseBluetooth implements LifecycleObserver {
 
         @Override
         public void success(String mac) {
+            isConnected = true;
             connectSuccessed(mac);
         }
 
         @Override
         public void failed() {
+            isConnected=false;
             connectFailed();
         }
 
         @Override
         public void disConnect() {
+            isConnected=false;
             disConnected();
         }
     }
@@ -252,7 +256,7 @@ public abstract class BaseBluetooth implements LifecycleObserver {
      * 只保留搜索功能，连接功能使用SDK自带的
      * @return
      */
-    protected boolean isSelfConnect() {
+    protected boolean isSelfConnect(String name,String address) {
         return false;
     }
 }

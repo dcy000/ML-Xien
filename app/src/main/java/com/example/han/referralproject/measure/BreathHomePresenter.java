@@ -50,10 +50,11 @@ public class BreathHomePresenter extends BaseBluetooth {
     private boolean isRealConnectSuccess = false;
     private StringBuffer resultBuffer = new StringBuffer();
     private String time;
-    private String deviceName = "B810229665";
+    private String deviceName = "B810";
 
     public BreathHomePresenter(LifecycleOwner owner, String bluetoothName, String bluetoothAddress, int sex, int age, int height, int weight) {
         super(owner);
+        this.deviceName=bluetoothName;
         context = ((BreathHomeActivity) owner);
         requestConnectBean = new BreathHomeRequestConnectBean();
         resultBean = new BreathHomeResultBean();

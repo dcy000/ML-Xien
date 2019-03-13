@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.example.han.referralproject.activity.BaseActivity;
 import com.example.han.referralproject.activity.DetectActivity;
 import com.example.han.referralproject.activity.SelectXuetangTimeActivity;
+import com.example.han.referralproject.measure.BloodpressureMeasureActivity;
 import com.example.han.referralproject.measure.BreathHomeActivity;
 import com.example.han.referralproject.measure.TemperatureMeasureActivity;
 import com.example.han.referralproject.measure.ecg.ECGCompatActivity;
@@ -97,10 +98,11 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
             Intent intent = new Intent();
             switch (v.getId()) {
                 case R.id.ll_xueya:
-                    intent.setClass(mContext, DetectActivity.class);
-//                    intent.setClass(mContext, InstructionsActivity.class);
-                    intent.putExtra("type", "xueya");
-                    startActivity(intent);
+//                    intent.setClass(mContext, DetectActivity.class);
+////                    intent.setClass(mContext, InstructionsActivity.class);
+//                    intent.putExtra("type", "xueya");
+//                    startActivity(intent);
+                    startActivity(new Intent(this, BloodpressureMeasureActivity.class));
                     break;
                 case R.id.ll_xueyang:
                     intent.setClass(getApplicationContext(), DetectActivity.class);

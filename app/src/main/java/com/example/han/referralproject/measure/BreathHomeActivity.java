@@ -148,7 +148,7 @@ public class BreathHomeActivity extends AppCompatActivity implements View.OnClic
             String[] split = breathHomeMacAndName.split(",");
             if (split.length == 2) {
                 baseBluetooth = new BreathHomePresenter(activity, bluetoothName = split[0],
-                        bluetoothAddress = split[1], sex, age, height, weight);
+                       null, sex, age, height, weight);
             }
         } else {
             new InputDialog(this).builder()
@@ -229,10 +229,8 @@ public class BreathHomeActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.icon_home:
-                if (baseBluetooth != null) {
-                    baseBluetooth.onDestroy();
-                    baseBluetooth = new BreathHomePresenter(this, bluetoothName, bluetoothAddress, sex, age, height, weight);
-                }
+                LocalShared.getInstance(this).setBreathHomeMac("");
+                showDialog(this);
                 break;
         }
     }

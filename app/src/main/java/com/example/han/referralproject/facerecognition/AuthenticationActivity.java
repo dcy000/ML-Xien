@@ -177,7 +177,8 @@ public class AuthenticationActivity extends BaseActivity {
                     });
                     break;
                 case TO_CAMERA_PRE_RESOLVE://解析图像
-                    if (mCamera != null) {
+                    if (mCamera != null&&!isCameraRelease) {
+
                         mCamera.setOneShotPreviewCallback(new PreviewCallback() {
                             @Override
                             public void onPreviewFrame(byte[] data, Camera camera) {
@@ -621,9 +622,9 @@ public class AuthenticationActivity extends BaseActivity {
         }
         return null;
     }
-
+    private boolean isCameraRelease=false;
     private void finishActivity() {
-
+        isCameraRelease=true;
         mImageData = null;
         myHandler.removeCallbacksAndMessages(null);
         Handlers.bg().post(new Runnable() {

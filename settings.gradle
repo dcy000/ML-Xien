@@ -11,8 +11,7 @@ include ':app',
         ':lib-idcard-reader',
         ':lib-brightness',
 
-//        ':lib-call',
-//        ':app-bci-game',
+        ':lib-call',
         ':expand-textview-library',
         ':circleindicator',
         ':lib-utils',
@@ -22,7 +21,10 @@ include ':app',
         ':lib-video',
         ':lib-voice',
         ':lib-widget',
-        ':module-ecg', ':lib-idcard-cvr', ':module-control-volume'
+        ':lib-idcard-cvr',
+        ':module-control-volume',
+        ':module-ecg',
+        ':lib-idcard-cvr'
 
 
 

@@ -16,6 +16,7 @@ import com.example.han.referralproject.network.NetworkApi;
 import com.example.han.referralproject.network.NetworkManager;
 import com.medlink.danbogh.call2.NimCallActivity;
 import com.medlink.danbogh.utils.T;
+import com.medlink.danbogh.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 public class DoctorappoActivity2 extends BaseActivity implements View.OnClickListener {
@@ -111,7 +112,7 @@ public class DoctorappoActivity2 extends BaseActivity implements View.OnClickLis
                     T.show("呼叫医生失败");
                     return;
                 }
-                NimCallActivity.launch(this, "docter_" + doctorId);
+                Utils.launchCallWithCheck(this, "docter_" + doctorId);
                 break;
         }
     }

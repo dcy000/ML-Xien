@@ -29,6 +29,7 @@ import com.example.han.referralproject.speechsynthesis.PinYinUtils;
 import com.medlink.danbogh.call2.NimCallActivity;
 import com.medlink.danbogh.register.ConfirmContractActivity;
 import com.medlink.danbogh.utils.T;
+import com.medlink.danbogh.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 public class DoctorMesActivity extends BaseActivity implements View.OnClickListener {
@@ -307,7 +308,7 @@ public class DoctorMesActivity extends BaseActivity implements View.OnClickListe
             case R.id.qianyue:
 
                 if ("1".equals(sign)) {
-                    NimCallActivity.launch(mContext, "docter_" + doctor.docterid);
+                    Utils.launchCallWithCheck(mContext, "docter_" + doctor.docterid);
 //                    NetworkApi.postTelMessage(doctor.tel, MyApplication.getInstance().userName, new NetworkManager.SuccessCallback<Object>() {
 //                        @Override
 //                        public void onSuccess(Object response) {

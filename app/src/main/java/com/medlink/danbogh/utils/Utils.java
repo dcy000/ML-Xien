@@ -15,7 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.han.referralproject.bean.RobotAmount;
+import com.example.han.referralproject.network.NetworkApi;
+import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
+import com.gcml.call.CallHelper;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -353,6 +358,27 @@ public class Utils {
         Date date = new Date(milSecond);
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(date);
+    }
+
+    public static void launchCallWithCheck(final Context context, final String account) {
+        final String deviceId = com.example.han.referralproject.util.Utils.getDeviceId();
+        NetworkApi.Person_Amount(deviceId, new NetworkManager.SuccessCallback<RobotAmount>() {
+            @Override
+            public void onSuccess(RobotAmount response) {
+                final String amount = response.getAmount();
+                if (Float.parseFloat(amount) > 0) {
+                    //有余额
+                    CallHelper.launch(context, account);
+                } else {
+                    T.show("余额不足，请充值后再试");
+                }
+            }
+        }, new NetworkManager.FailedCallback() {
+            @Override
+            public void onFailed(String message) {
+//                        T.show("服务器繁忙，请稍后再试");
+            }
+        });
     }
 }
 

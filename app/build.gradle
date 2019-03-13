@@ -239,4 +239,5 @@ dependencies {
     implementation project(':lib-voice')
     implementation project(':lib-idcard-cvr')
     implementation project(':module-control-volume')
+    implementation project(':lib-call')
 }

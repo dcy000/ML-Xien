@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.text.TextUtils;
 
 import com.example.han.referralproject.util.LocalShared;
+import com.gcml.sdk_maibobo.BluetoothManager;
 import com.gzq.lib_bluetooth.BaseBluetooth;
 import com.gzq.lib_bluetooth.BluetoothStore;
 import com.gzq.lib_bluetooth.BluetoothType;
@@ -52,6 +53,7 @@ public class BloodpressurePresenter extends BaseBluetooth {
     private BloodpressureMeasureActivity context;
     private BloodpressureXien2Presenter xien2Presenter;
     private String targetAddress;
+    private BluetoothManager bluetoothManager;
 
     public BloodpressurePresenter(LifecycleOwner owner) {
         super(owner);
@@ -61,7 +63,7 @@ public class BloodpressurePresenter extends BaseBluetooth {
 
     public void startDiscover() {
         String xueyaMac = LocalShared.getInstance(context).getXueyaMac();
-        start(BluetoothType.BLUETOOTH_TYPE_BLE, xueyaMac, "eBlood-Pressure", "LD", "Dual-SPP", "Yuwell");
+        start(BluetoothType.BLUETOOTH_TYPE_BLE, xueyaMac, "eBlood-Pressure", "LD", "Dual-SPP", "Yuwell", "BP06D", "RBP");
     }
 
 
@@ -75,6 +77,10 @@ public class BloodpressurePresenter extends BaseBluetooth {
     protected boolean isSelfConnect(String name, String address) {
         if (name.startsWith("Dual")) {
             xien2Presenter = new BloodpressureXien2Presenter(context, context, "Dual-SPP", address);
+            return true;
+        }
+        if (name.startsWith("BP06D") || name.startsWith("RBP")) {
+            new BloodpressureMaiboboPresenter(name, address, context);
             return true;
         }
         return super.isSelfConnect(name, address);
@@ -104,10 +110,12 @@ public class BloodpressurePresenter extends BaseBluetooth {
                         handleYuyue(address);
                         return;
                     }
+
                 }
             }
         }
     }
+
 
     @Override
     protected void connectFailed() {

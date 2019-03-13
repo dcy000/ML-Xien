@@ -127,7 +127,7 @@ public class ChooseRegisterTypeActivity extends BaseActivity implements View.OnC
 //                }
                 break;
             case R.id.tv_id_card_sign_in:
-                startActivity(new Intent(this, SignInIdCardActivity.class));
+                startActivity(new Intent(this, SignInIdCardActivity.class).putExtra("type","register"));
                 break;
             case R.id.account_tip://注册
                 startActivity(new Intent(ChooseRegisterTypeActivity.this, SignUp1NameActivity.class));

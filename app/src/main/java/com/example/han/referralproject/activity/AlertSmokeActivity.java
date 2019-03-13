@@ -36,8 +36,9 @@ public class AlertSmokeActivity extends BaseActivity {
     private EatAdapter mAdapter;
     private List<EatModel> mModels;
     private UserInfoBean data;
-    private String eat = "",smoke="",drink="",exercise="";
+    private String eat = "", smoke = "", drink = "", exercise = "";
     private StringBuffer buffer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,25 +46,28 @@ public class AlertSmokeActivity extends BaseActivity {
         ButterKnife.bind(this);
         mToolbar.setVisibility(View.VISIBLE);
         mTitleText.setText("修改吸烟情况");
-        data= (UserInfoBean) getIntent().getSerializableExtra("data");
+        data = (UserInfoBean) getIntent().getSerializableExtra("data");
         tvSignUpGoBack.setText("取消");
         tvSignUpGoForward.setText("确定");
-        buffer=new StringBuffer();
+        buffer = new StringBuffer();
         initView();
     }
 
 
     private void initView() {
-        if(!TextUtils.isEmpty(data.eatingHabits)){
-            switch (data.eatingHabits){
+        if (data == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(data.eatingHabits)) {
+            switch (data.eatingHabits) {
                 case "荤素搭配":
-                    eat="1";
+                    eat = "1";
                     break;
                 case "偏好吃荤":
-                    eat="2";
+                    eat = "2";
                     break;
                 case "偏好吃素":
-                    eat="3";
+                    eat = "3";
                     break;
                 case "偏好吃咸":
                     break;
@@ -74,53 +78,53 @@ public class AlertSmokeActivity extends BaseActivity {
             }
         }
         if (!TextUtils.isEmpty(data.smoke)) {
-            switch (data.smoke){
+            switch (data.smoke) {
                 case "经常吸烟":
-                    smoke="1";
+                    smoke = "1";
                     break;
                 case "偶尔吸烟":
-                    smoke="2";
+                    smoke = "2";
                     break;
                 case "从不吸烟":
-                    smoke="3";
+                    smoke = "3";
                     break;
             }
         }
         if (!TextUtils.isEmpty(data.drink)) {
-            switch (data.drink){
+            switch (data.drink) {
                 case "经常喝酒":
-                    smoke="1";
+                    smoke = "1";
                     break;
                 case "偶尔喝酒":
-                    smoke="2";
+                    smoke = "2";
                     break;
                 case "从不喝酒":
-                    smoke="3";
+                    smoke = "3";
                     break;
             }
         }
 
-        if(!TextUtils.isEmpty(data.exerciseHabits)){
-            switch (data.exerciseHabits){
+        if (!TextUtils.isEmpty(data.exerciseHabits)) {
+            switch (data.exerciseHabits) {
                 case "每天一次":
-                    exercise="1";
+                    exercise = "1";
                     break;
                 case "每周几次":
-                    exercise="2";
+                    exercise = "2";
                     break;
                 case "偶尔运动":
-                    exercise="3";
+                    exercise = "3";
                     break;
                 case "从不运动":
-                    exercise="4";
+                    exercise = "4";
                     break;
             }
         }
-        if("尚未填写".equals(data.mh)){
-            buffer=null;
-        }else{
-            String[] mhs=data.mh.split("\\s+");
-            for (int i=0;i<mhs.length;i++){
+        if ("尚未填写".equals(data.mh)) {
+            buffer = null;
+        } else {
+            String[] mhs = data.mh.split("\\s+");
+            for (int i = 0; i < mhs.length; i++) {
                 if (mhs[i].equals("高血压"))
                     buffer.append(1 + ",");
                 else if (mhs[i].equals("糖尿病"))
@@ -150,6 +154,7 @@ public class AlertSmokeActivity extends BaseActivity {
         rvSignUpContent.setAdapter(mAdapter);
 
     }
+
     private int positionSelected = -1;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -166,6 +171,7 @@ public class AlertSmokeActivity extends BaseActivity {
             mAdapter.notifyItemChanged(position);
         }
     };
+
     private List<EatModel> eatModals() {
         mModels = new ArrayList<>(3);
         mModels.add(new EatModel(getString(R.string.always_smoke),
@@ -185,6 +191,7 @@ public class AlertSmokeActivity extends BaseActivity {
                 R.drawable.bg_tv_salty_preference));
         return mModels;
     }
+
     @OnClick(R.id.tv_sign_up_go_back)
     public void onTvGoBackClicked() {
         finish();
@@ -192,34 +199,35 @@ public class AlertSmokeActivity extends BaseActivity {
 
     @OnClick(R.id.tv_sign_up_go_forward)
     public void onTvGoForwardClicked() {
-        if(positionSelected==-1){
+        if (positionSelected == -1) {
             ToastTool.showShort("请选择其中一个");
             return;
         }
-        NetworkApi.alertBasedata(MyApplication.getInstance().userId, data.height, data.weight, eat, positionSelected+1+"", drink, exercise,
-                TextUtils.isEmpty(buffer) ?"":buffer.substring(0,buffer.length()-1),data.dz,new NetworkManager.SuccessCallback<Object>() {
-            @Override
-            public void onSuccess(Object response) {
-                ToastTool.showShort("修改成功");
-                switch (positionSelected+1){
-                    case 1:
-                        speak("您好，您的吸烟情况已经修改为"+"经常吸烟");
-                        break;
-                    case 2:
-                        speak("您好，您的吸烟情况已经修改为"+"偶尔吸烟");
-                        break;
-                    case 3:
-                        speak("您好，您的吸烟情况已经修改为"+"从不吸烟");
-                        break;
-                }
-            }
-        }, new NetworkManager.FailedCallback() {
-            @Override
-            public void onFailed(String message) {
+        NetworkApi.alertBasedata(MyApplication.getInstance().userId, data.height, data.weight, eat, positionSelected + 1 + "", drink, exercise,
+                TextUtils.isEmpty(buffer) ? "" : buffer.substring(0, buffer.length() - 1), data.dz, new NetworkManager.SuccessCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        ToastTool.showShort("修改成功");
+                        switch (positionSelected + 1) {
+                            case 1:
+                                speak("您好，您的吸烟情况已经修改为" + "经常吸烟");
+                                break;
+                            case 2:
+                                speak("您好，您的吸烟情况已经修改为" + "偶尔吸烟");
+                                break;
+                            case 3:
+                                speak("您好，您的吸烟情况已经修改为" + "从不吸烟");
+                                break;
+                        }
+                    }
+                }, new NetworkManager.FailedCallback() {
+                    @Override
+                    public void onFailed(String message) {
 
-            }
-        });
+                    }
+                });
     }
+
     @Override
     protected void onActivitySpeakFinish() {
         finish();

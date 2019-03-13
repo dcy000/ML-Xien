@@ -14,6 +14,8 @@ import com.example.han.referralproject.activity.ChooseRegisterTypeActivity;
 import com.example.han.referralproject.activity.WifiConnectActivity;
 import com.example.han.referralproject.application.MyApplication;
 import com.example.han.referralproject.util.LocalShared;
+import com.gcml.lib_utils.permission.PermissionsManager;
+import com.gcml.lib_utils.permission.PermissionsResultAction;
 import com.gzq.lib_core.base.Box;
 
 public class LudeAuthActivity extends AppCompatActivity {
@@ -77,5 +79,16 @@ public class LudeAuthActivity extends AppCompatActivity {
         } else {
             tvNetworkMode.setVisibility(View.GONE);
         }
+        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this, new PermissionsResultAction() {
+            @Override
+            public void onGranted() {
+
+            }
+
+            @Override
+            public void onDenied(String permission) {
+
+            }
+        });
     }
 }

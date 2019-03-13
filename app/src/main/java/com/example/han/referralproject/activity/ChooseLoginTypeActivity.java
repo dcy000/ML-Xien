@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.example.han.referralproject.facerecognition.AuthenticationActivity;
 import com.example.han.referralproject.speechsynthesis.PinYinUtils;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.ToastTool;
+import com.example.han.referralproject.util.Utils;
 import com.gzq.lib_core.base.Box;
 import com.medlink.danbogh.register.SignUp1NameActivity;
 import com.medlink.danbogh.register.idcard.SignInIdCardActivity;
@@ -60,12 +62,13 @@ public class ChooseLoginTypeActivity extends BaseActivity implements View.OnClic
     ImageView ivBack;
     @BindView(R.id.cl_container)
     ConstraintLayout clContainer;
-
+    private static final String TAG = "ChooseLoginTypeActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_login_type);
         ButterKnife.bind(this);
+        Log.e(TAG, "onCreate: 本机器的机器id"+ Utils.getDeviceId());
         speak("您好，想要登录，请说人脸登录或者手机登录。如果您还没有账号，请说我要注册。");
         tvPhoneSignIn.setOnClickListener(this);
         tvFaceSignIn.setOnClickListener(this);
@@ -127,7 +130,7 @@ public class ChooseLoginTypeActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.tv_id_card_sign_in:
-                startActivity(new Intent(this, SignInIdCardActivity.class));
+                startActivity(new Intent(this, SignInIdCardActivity.class).putExtra("type","login"));
                 break;
             case R.id.account_tip://注册
                 startActivity(new Intent(ChooseLoginTypeActivity.this, SignUp1NameActivity.class));

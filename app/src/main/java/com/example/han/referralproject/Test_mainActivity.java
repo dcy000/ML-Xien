@@ -109,10 +109,6 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.ll_tiwen:
-//                    intent.setClass(mContext, DetectActivity.class);
-////                    intent.setClass(mContext, InstructionsActivity.class);
-//                    intent.putExtra("type", "wendu");
-//                    startActivity(intent);
                     startActivity(new Intent(this, TemperatureMeasureActivity.class));
                     break;
                 case R.id.ll_xuetang:

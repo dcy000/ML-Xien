@@ -88,8 +88,13 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         setContentView(R.layout.sign_in_activity_id_card);
         mToolbar.setVisibility(View.VISIBLE);
         mRightView.setImageResource(R.drawable.icon_refresh);
+        String type = getIntent().getStringExtra("type");
+        if (type.equals("register")){
+            mTitleText.setText("身  份  证  注  册");
+        }else if (type.equals("login")){
+            mTitleText.setText("身  份  证  登  录");
+        }
         registerReceiver();
-        mTitleText.setText("身  份  证  登  录");
         controller = new BluetoothController();
         controller.init(this);
         client = BtReadClient.getInstance();

@@ -60,6 +60,9 @@ public class AlertHeightActivity extends BaseActivity {
     }
 
     protected void initView() {
+        if (data==null){
+            return;
+        }
         if (!TextUtils.isEmpty(data.eatingHabits)) {
             switch (data.eatingHabits) {
                 case "荤素搭配":

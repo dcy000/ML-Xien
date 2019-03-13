@@ -37,10 +37,7 @@ public class NetworkManager {
     ;
 
     private NetworkManager() {
-        client = new OkHttpClient
-                .Builder()
-                .addInterceptor(new HttpLogInterceptor(null))
-                .build();
+        client = new OkHttpClient();
         mGson = new Gson();
         mContext = Box.getApp();
     }

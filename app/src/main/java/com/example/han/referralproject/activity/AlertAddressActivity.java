@@ -71,6 +71,9 @@ public class AlertAddressActivity extends BaseActivity {
     }
 
     private void initLocation() {
+        if (data==null){
+            return;
+        }
         if (!TextUtils.isEmpty(data.eatingHabits)) {
             switch (data.eatingHabits) {
                 case "荤素搭配":

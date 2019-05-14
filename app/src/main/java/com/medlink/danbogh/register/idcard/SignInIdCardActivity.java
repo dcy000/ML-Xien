@@ -72,8 +72,8 @@ import io.reactivex.schedulers.Schedulers;
 public class SignInIdCardActivity extends BaseActivity implements BluetoothController.CVRConnect, BluetoothController.CVRRead {
 
     private static final String TAG = "MyBluetooth";
-    private static final String FILTER = "KT8000";
-    private static final String FILTER2 = "CVR";
+    private static final String FILTER_KT800 = "KT8000";
+    private static final String FILTER_VCR = "CVR";
     private static final int PROTOCOL_TYPE = 0;
 
     private BluetoothAdapter bluetoothAdapter;
@@ -89,9 +89,9 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         mToolbar.setVisibility(View.VISIBLE);
         mRightView.setImageResource(R.drawable.icon_refresh);
         String type = getIntent().getStringExtra("type");
-        if (type.equals("register")){
+        if (type.equals("register")) {
             mTitleText.setText("身  份  证  注  册");
-        }else if (type.equals("login")){
+        } else if (type.equals("login")) {
             mTitleText.setText("身  份  证  登  录");
         }
         registerReceiver();
@@ -111,8 +111,8 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
 
     @Override
     protected void backMainActivity() {
-        LocalShared.getInstance(this).setString(FILTER, "");
-        LocalShared.getInstance(this).setString(FILTER2, "");
+        LocalShared.getInstance(this).setString(FILTER_KT800, "");
+        LocalShared.getInstance(this).setString(FILTER_VCR, "");
         targetDevice = null;
         removeBounds();
         btHandler().post(oneShutRunnable);
@@ -138,7 +138,7 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                 if (TextUtils.isEmpty(name)) {
                     continue;
                 }
-                if (name.toUpperCase().startsWith(FILTER)) {
+                if (name.toUpperCase().startsWith(FILTER_KT800)) {
                     removeBond(device);
                 }
             }
@@ -173,9 +173,9 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                 initializing = false;
                 return;
             }
-            String address = LocalShared.getInstance(this).getString(FILTER);
-            String address2 = LocalShared.getInstance(this).getString(FILTER2);
-            if (!TextUtils.isEmpty(address2) && BluetoothAdapter.checkBluetoothAddress(address)) {
+            String address = LocalShared.getInstance(this).getString(FILTER_KT800);
+            String address2 = LocalShared.getInstance(this).getString(FILTER_VCR);
+            if (!TextUtils.isEmpty(address2) && BluetoothAdapter.checkBluetoothAddress(address2)) {
                 controller.connect(address2, this);
                 return;
             }
@@ -198,11 +198,11 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
             if (!findBoundTargetDevice()) {
                 findTargetDevice();
             } else {
-                Log.i(TAG, "Target Device Bound: named start with " + FILTER);
+                Log.i(TAG, "Target Device Bound: named start with " + FILTER_KT800);
                 onDeviceInitialized();
             }
         } else {
-            Log.i(TAG, "Target Device Ready: named start with " + FILTER);
+            Log.i(TAG, "Target Device Ready: named start with " + FILTER_KT800);
             onDeviceInitialized();
         }
     }
@@ -211,10 +211,21 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         initializing = false;
         String address = targetDevice == null ? "targetDevice == null" : targetDevice.getAddress();
         Log.i(TAG, "initDevice: onDeviceInitialized" + address);
-        if (targetDevice == null) {
+        if (targetDevice == null || TextUtils.isEmpty(targetDevice.getName())) {
             onDeviceNotFound();
             return;
         }
+
+        String name = targetDevice.getName();
+        if (name.toUpperCase().startsWith(FILTER_KT800)) {
+            type = IdCardType.ID_CARD_KT8000;
+        } else if (name.toUpperCase().startsWith(FILTER_VCR)) {
+            type = IdCardType.ID_CARD_VCR;
+        } else {
+            onDeviceNotFound();
+            return;
+        }
+
         btHandler().post(readRunnable);
     }
 
@@ -265,7 +276,7 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                 if (TextUtils.isEmpty(name)) {
                     continue;
                 }
-                if (name.toUpperCase().startsWith(FILTER)) {
+                if (name.toUpperCase().startsWith(FILTER_KT800)) {
                     targetDevice = device;
                     return true;
                 }
@@ -329,7 +340,7 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                         if (!TextUtils.isEmpty(name)) {
                             Log.i(TAG, "onReceive: 搜到的设备：" + device.getName() + "----" + device.getAddress());
                             //CVR读卡器
-                            if (name.toUpperCase().startsWith(FILTER2)) {
+                            if (name.toUpperCase().startsWith(FILTER_VCR)) {
                                 if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
                                     bluetoothAdapter.cancelDiscovery();
                                 }
@@ -338,11 +349,11 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
                                 return;
                             }
                             //KT8000读卡器
-                            if (name.toUpperCase().startsWith(FILTER)) {
+                            if (name.toUpperCase().startsWith(FILTER_KT800)) {
                                 if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
                                     bluetoothAdapter.cancelDiscovery();
                                 }
-                                type = IdCardType.ID_CARD_VCR;
+                                type = IdCardType.ID_CARD_KT8000;
                                 targetDevice = device;
                                 createBond(device);
                             }
@@ -625,6 +636,9 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
     private void onRegisterOrLoginNetless() {
         final UserInfoBean user = new UserInfoBean();
         final LocalShared shared = LocalShared.getInstance(this);
+        if (item == null) {
+            return;
+        }
         user.bid = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
         user.bname = type == IdCardType.ID_CARD_KT8000 ? item.partyName : info.getPeopleName();
         user.sex = type == IdCardType.ID_CARD_KT8000 ? item.gender : item.gender;
@@ -1136,9 +1150,9 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         if (targetDevice != null) {
             String address = targetDevice.getAddress();
             if (type == IdCardType.ID_CARD_VCR) {
-                LocalShared.getInstance(this).setString(FILTER2, address);
+                LocalShared.getInstance(this).setString(FILTER_VCR, address);
             } else if (type == IdCardType.ID_CARD_KT8000) {
-                LocalShared.getInstance(this).setString(FILTER, address);
+                LocalShared.getInstance(this).setString(FILTER_KT800, address);
             }
         }
 //        removeBond(targetDevice);

@@ -13,6 +13,7 @@ import com.example.han.referralproject.application.MyApplication;
 import com.example.han.referralproject.constant.ConstantData;
 import com.example.han.referralproject.imageview.CircleImageView;
 import com.example.han.referralproject.util.LocalShared;
+import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.bean.UserInfoBean;
 import com.medlink.danbogh.call2.NimAccountHelper;
 import com.medlink.danbogh.utils.JpushAliasUtils;
@@ -25,7 +26,7 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
     private Context mContext;
     private ArrayList<UserInfoBean> mUserData;
 
-    public ChangeAccountAdapter(Context context, ArrayList<UserInfoBean> userData){
+    public ChangeAccountAdapter(Context context, ArrayList<UserInfoBean> userData) {
         mUserData = userData;
         mInflater = LayoutInflater.from(context);
         mContext = context;
@@ -50,11 +51,12 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new JpushAliasUtils(mContext).setAlias("user_"+itemBean.bid);
+                Box.getSessionManager().setUser(itemBean);
+                new JpushAliasUtils(mContext).setAlias("user_" + itemBean.bid);
                 NimAccountHelper.getInstance().logout();
                 MyApplication.getInstance().userId = itemBean.bid;
-                MyApplication.getInstance().xfid=itemBean.xfid;
-                MyApplication.getInstance().eqid=itemBean.eqid;
+                MyApplication.getInstance().xfid = itemBean.xfid;
+                MyApplication.getInstance().eqid = itemBean.eqid;
                 LocalShared.getInstance(mContext).setUserInfo(itemBean);
                 LocalShared.getInstance(mContext).setSex(itemBean.sex);
                 LocalShared.getInstance(mContext).setUserPhoto(itemBean.userPhoto);
@@ -78,7 +80,7 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
         public TextView mNameView;
         public CircleImageView mHeaderIv;
 
-        public MyHolder(View view){
+        public MyHolder(View view) {
             super(view);
             mNameView = (TextView) view.findViewById(R.id.tv_name);
             mHeaderIv = (CircleImageView) view.findViewById(R.id.iv_header);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -17,6 +18,10 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.han.referralproject.R;
+import com.example.han.referralproject.bean.DataInfoBean;
+import com.example.han.referralproject.bean.MeasureResult;
+import com.example.han.referralproject.network.NetworkApi;
+import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.WeakHandler;
 import com.gzq.lib_core.utils.ToastUtils;
@@ -84,20 +89,37 @@ public class WeightMeasureActivity extends AppCompatActivity implements View.OnC
                 mTvTizhong.setText(datas[0]);
             }
         } else if (datas.length == 3) {
-            if (!isMeasureFinishedOfThisTime && Float.parseFloat(datas[2]) != 0) {
+            float weight = Float.parseFloat(datas[2]);
+            if (!isMeasureFinishedOfThisTime && weight != 0) {
                 isMeasureFinishedOfThisTime = true;
                 if (mTvTizhong != null) {
                     mTvTizhong.setText(datas[2]);
                 }
                 String height_s = LocalShared.getInstance(WeightMeasureActivity.this).getUserHeight();
                 float height = TextUtils.isEmpty(height_s) ? 0 : Float.parseFloat(height_s) / 100;
-                float tizhi = Float.parseFloat(datas[2]) / (height * height);
+                float tizhi = weight / (height * height);
                 if (height != 0) {
                     mTvTizhi.setText(String.format("%1$.2f", tizhi));
                 }
                 MLVoiceSynthetize.startSynthesize("主人，您本次测量体重" + datas[2] + "公斤，体质" + tizhi);
+                postData(weight);
             }
         }
+    }
+
+    private void postData(float weight) {
+        //上传数据
+        DataInfoBean info = new DataInfoBean();
+        info.weight = weight;
+        NetworkApi.postData(info, new NetworkManager.SuccessCallback<MeasureResult>() {
+            @Override
+            public void onSuccess(MeasureResult response) {
+            }
+        }, new NetworkManager.FailedCallback() {
+            @Override
+            public void onFailed(String message) {
+            }
+        });
     }
 
     public void updateState(String state) {

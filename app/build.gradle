@@ -93,6 +93,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output -> outputFileName = new File(defaultConfig.versionName + /*"." + releaseTime() + */".apk")
+            }
+    }
+
 }
 
 

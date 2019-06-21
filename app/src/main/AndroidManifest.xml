@@ -681,6 +681,9 @@
         <activity
             android:name=".measure.BloodpressureMeasureActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".measure.WeightMeasureActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

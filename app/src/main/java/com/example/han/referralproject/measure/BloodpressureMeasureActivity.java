@@ -77,6 +77,7 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
     private ConstraintSet lowSet;
     private ConstraintLayout clPressure;
     private BloodpressurePresenter bloodpressurePresenter;
+    private View view;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
     private void playVideo() {
         mVvTips.setVisibility(View.VISIBLE);
         mViewOver.setVisibility(View.VISIBLE);
+        view.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.tips_xueya);
         mVvTips.setZOrderOnTop(true);
         mVvTips.setZOrderMediaOverlay(true);
@@ -103,10 +105,12 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
         public void onCompletion(MediaPlayer mp) {
             mVvTips.setVisibility(View.GONE);
             mViewOver.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
         }
     };
 
     private void initView() {
+        view = findViewById(R.id.view);
         mPressureSvValue = (BloodPressureSurfaceView) findViewById(R.id.pressure_sv_value);
         mPressureBgValue1 = (View) findViewById(R.id.pressure_bg_value_1);
         mHighPressure1 = (TextView) findViewById(R.id.high_pressure1);
@@ -164,6 +168,7 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
             case R.id.view_over:
                 mVvTips.setVisibility(View.GONE);
                 mViewOver.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
                 if (mVvTips.isPlaying()) {
                     mVvTips.pause();
                 }
@@ -222,8 +227,8 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
             mPulse.setText(datas[2]);
             if (!isMeasureFinishedOfThisTime && Float.parseFloat(datas[0]) != 0) {
                 isMeasureFinishedOfThisTime = true;
+                MLVoiceSynthetize.startSynthesize("主人，您本次测量收缩压" + datas[0] + ",舒张压" + datas[1] + ",脉搏" + datas[2]);
             }
-            MLVoiceSynthetize.startSynthesize("主人，您本次测量收缩压" + datas[0] + ",舒张压" + datas[1] + ",脉搏" + datas[2]);
         } else {
         }
 

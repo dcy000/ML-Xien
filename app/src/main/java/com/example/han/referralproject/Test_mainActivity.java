@@ -12,6 +12,7 @@ import com.example.han.referralproject.activity.SelectXuetangTimeActivity;
 import com.example.han.referralproject.measure.BloodpressureMeasureActivity;
 import com.example.han.referralproject.measure.BreathHomeActivity;
 import com.example.han.referralproject.measure.TemperatureMeasureActivity;
+import com.example.han.referralproject.measure.WeightMeasureActivity;
 import com.example.han.referralproject.measure.ecg.ECGCompatActivity;
 
 import java.util.Calendar;
@@ -98,10 +99,6 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
             Intent intent = new Intent();
             switch (v.getId()) {
                 case R.id.ll_xueya:
-//                    intent.setClass(mContext, DetectActivity.class);
-////                    intent.setClass(mContext, InstructionsActivity.class);
-//                    intent.putExtra("type", "xueya");
-//                    startActivity(intent);
                     startActivity(new Intent(this, BloodpressureMeasureActivity.class));
                     break;
                 case R.id.ll_xueyang:
@@ -129,11 +126,12 @@ public class Test_mainActivity extends BaseActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.ll_tizhong://体重
-                    intent.setClass(mContext, DetectActivity.class);
-//                    intent.setClass(mContext, OnMeasureActivity.class);
-                    intent.putExtra("type", "tizhong");
-                    startActivity(intent);
+//                    intent.setClass(mContext, DetectActivity.class);
+////                    intent.setClass(mContext, OnMeasureActivity.class);
+//                    intent.putExtra("type", "tizhong");
+//                    startActivity(intent);
 //                    ToastUtil.showShort(this,"暂未开通");
+                    startActivity(new Intent(this, WeightMeasureActivity.class));
                     break;
                 case R.id.ll_more://敬请期待
 //                    ToastTool.showShort("敬请期待");

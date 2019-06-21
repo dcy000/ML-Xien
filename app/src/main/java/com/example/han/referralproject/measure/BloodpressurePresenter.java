@@ -110,7 +110,7 @@ public class BloodpressurePresenter extends BaseBluetooth {
                         handleYuyue(address);
                         return;
                     }
-
+                    isSelfConnect(name,address);
                 }
             }
         }

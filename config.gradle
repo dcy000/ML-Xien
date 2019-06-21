@@ -25,10 +25,10 @@ ext {
     //TODO:开发时只更改开发引用即可，下方的生产引用不要轻易更改。
     //开发使用的IP地址
 
-    developUrl = api.xienTestUrl
+    developUrl = api.xienProduceUrl
 
     //线上正式运行的IP地址
-    produceUrl = api.xienTestUrl
+    produceUrl = api.xienProduceUrl
 
 
     android = [
@@ -37,7 +37,7 @@ ext {
             minSdkVersion    : 19,
             targetSdkVersion : 27,
             versionCode      : 25,
-            versionName      : "Robot.XE.1.2.25.2.beta"
+            versionName      : "Robot.XE.1.2.25"
     ]
 
     version = [

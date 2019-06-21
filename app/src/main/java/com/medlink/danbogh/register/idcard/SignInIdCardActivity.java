@@ -89,9 +89,9 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         mToolbar.setVisibility(View.VISIBLE);
         mRightView.setImageResource(R.drawable.icon_refresh);
         String type = getIntent().getStringExtra("type");
-        if (type.equals("register")){
+        if (type.equals("register")) {
             mTitleText.setText("身  份  证  注  册");
-        }else if (type.equals("login")){
+        } else if (type.equals("login")) {
             mTitleText.setText("身  份  证  登  录");
         }
         registerReceiver();
@@ -627,7 +627,7 @@ public class SignInIdCardActivity extends BaseActivity implements BluetoothContr
         final LocalShared shared = LocalShared.getInstance(this);
         user.bid = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
         user.bname = type == IdCardType.ID_CARD_KT8000 ? item.partyName : info.getPeopleName();
-        user.sex = type == IdCardType.ID_CARD_KT8000 ? item.gender : item.gender;
+        user.sex = type == IdCardType.ID_CARD_KT8000 ? item.gender : info.getSex();
         user.dz = type == IdCardType.ID_CARD_KT8000 ? item.certAddress : info.getAddr();
         user.sfz = type == IdCardType.ID_CARD_KT8000 ? item.certNumber : info.getIDCard();
         user.height = String.valueOf(shared.getSignUpHeight());

@@ -4,18 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/normal_bg">
-    <!--血压检测-->
+    <!--体重监测-->
     <include
-        layout="@layout/lude_device_include_pressure"
-        android:visibility="visible" />
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"/>
-    <!--视频播放界面-->
-    <include
-        layout="@layout/ml_device_include_video_tips"
+        layout="@layout/ml_device_include_weight"
         android:visibility="visible" />
 
     <ImageView

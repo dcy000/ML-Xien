@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.han.referralproject.R;
+import com.example.han.referralproject.bean.DataInfoBean;
+import com.example.han.referralproject.bean.MeasureResult;
+import com.example.han.referralproject.network.NetworkApi;
+import com.example.han.referralproject.network.NetworkManager;
 import com.example.han.referralproject.util.LocalShared;
 import com.example.han.referralproject.util.WeakHandler;
 import com.gzq.lib_core.utils.ToastUtils;
@@ -228,6 +232,24 @@ public class BloodpressureMeasureActivity extends AppCompatActivity implements V
             if (!isMeasureFinishedOfThisTime && Float.parseFloat(datas[0]) != 0) {
                 isMeasureFinishedOfThisTime = true;
                 MLVoiceSynthetize.startSynthesize("主人，您本次测量收缩压" + datas[0] + ",舒张压" + datas[1] + ",脉搏" + datas[2]);
+                DataInfoBean info = new DataInfoBean();
+                try {
+                    info.high_pressure = (int) Float.parseFloat(datas[0]);
+                    info.low_pressure = (int) Float.parseFloat(datas[1]);
+                    info.pulse = (int) Float.parseFloat(datas[2]);
+                } catch (Throwable throwable) {
+                }
+                NetworkApi.postData(info, new NetworkManager.SuccessCallback<MeasureResult>() {
+                    @Override
+                    public void onSuccess(MeasureResult response) {
+                        //Toast.makeText(mContext, "success", Toast.LENGTH_SHORT).show();
+                    }
+                }, new NetworkManager.FailedCallback() {
+                    @Override
+                    public void onFailed(String message) {
+
+                    }
+                });
             }
         } else {
         }
